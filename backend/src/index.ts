@@ -1,9 +1,7 @@
-import express from 'express';
-import cors from 'cors';
-const app = express();
-app.use(cors());
+import app from "./app";
+import http from "http"
 
-
+const server = http.createServer(app)
 const baseURL = (dir:string):string => `/api/${dir}`;
 
 app.get(baseURL('ping'), (_req, res) => {
@@ -12,6 +10,6 @@ app.get(baseURL('ping'), (_req, res) => {
 });
 
 const PORT = 3001;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
