@@ -15,7 +15,7 @@ export const validateProduct = async (req: express.Request, res: express.Respons
     }
     return res.status(400).end(errorMessage)
   }
-  next()
+  return next()
 }
 
 interface JwtId extends JwtPayload {
@@ -37,5 +37,5 @@ export const userExtractor = async (req: userReq, _res: express.Response, next: 
   } else {
     req.user = null;
   }
-  next();
+  return next();
 };

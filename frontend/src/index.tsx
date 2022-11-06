@@ -8,14 +8,15 @@ import productReducer from './reducers/productReducer';
 import cartReducer from './reducers/cartReducer'
 import notificationSlice from './reducers/notificationReducer'
 import searchFilterReducer from './reducers/searchFilterReducer'
-
+import userReducer from './reducers/userReducer'
 
 const store = configureStore({
   reducer: {
     products: productReducer,
     cart: cartReducer,
     notification: notificationSlice,
-    searchFilter: searchFilterReducer
+    searchFilter: searchFilterReducer,
+    user: userReducer
   }
 })
 

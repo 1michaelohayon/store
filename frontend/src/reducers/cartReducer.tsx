@@ -17,7 +17,6 @@ const cartSlice = createSlice({
       productInCart
         ? productInCart.amount += cartListing.amount
         : state.push(cartListing);
-      
     },
     removeProduct: (state, action: PayloadAction<CartListing>) => {
       const productId = action.payload.product.id
@@ -31,11 +30,14 @@ const cartSlice = createSlice({
         return state = removedFromCart
       }
 
+    },
+    setCart: (state, action: PayloadAction<CartListing[]>) => {
+      state = action.payload
     }
   },
 })
 
-export const { addProduct, removeProduct } = cartSlice.actions
+export const { addProduct, removeProduct, setCart } = cartSlice.actions
 
 
 export const addToCart = (product: Product) => {
@@ -47,6 +49,12 @@ export const addToCart = (product: Product) => {
 export const removeFromCart = (product: CartListing) => {
   return async (dispatch: AppDispatch) => {
     dispatch(removeProduct(product))
+  }
+}
+
+export const rememberedCart = (products: CartListing[])=> {
+  return async (dispatch: AppDispatch) => {
+    dispatch(setCart(products))
   }
 }
 

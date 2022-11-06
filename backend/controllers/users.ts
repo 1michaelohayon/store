@@ -21,6 +21,7 @@ usersRouter.post('/', async (req, res) => {
   const { username, name, password } = req.body
 
   const existingUser = await UserSchema.findOne({ username })
+  
   if (existingUser) {
     return res.status(400).json({ error: 'username must be unique' })
   } else if (!req.body.password) {
@@ -45,7 +46,7 @@ usersRouter.post('/', async (req, res) => {
   const savedUser = await user.save()
 
 
-  res.status(201).json(savedUser.toJSON())
+ return res.status(201).json(savedUser.toJSON())
 })
 
 export default usersRouter

@@ -9,6 +9,7 @@ import SignIn from "./components/SiginIn";
 import ProductPage from "./components/ProductPage";
 import { useSelector } from "react-redux";
 import { RootState } from ".";
+import { assignUser } from "./reducers/userReducer";
 import {
   BrowserRouter as Router,
   Routes,
@@ -18,6 +19,16 @@ import {
 
 const App = () => {
   const dispatch: AppDispatch = useDispatch()
+
+  useEffect(() => {
+    const loggedUnderJSON = window.localStorage.getItem('loggedStoreUser')
+    if (loggedUnderJSON) {
+      const user = JSON.parse(loggedUnderJSON)
+      dispatch(assignUser(user))
+    }
+  }, [dispatch])
+
+
 
   useEffect(() => {
     dispatch(initializeProducts())
@@ -38,7 +49,7 @@ const App = () => {
     <>
       <AppBar />
       {notification}
-      
+
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<SignIn />} />

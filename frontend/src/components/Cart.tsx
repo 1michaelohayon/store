@@ -1,4 +1,3 @@
-import { Product } from "../types";
 import { addToCart, removeFromCart } from "../reducers/cartReducer"
 import { useDispatch, useSelector } from "react-redux";
 import { setNotification } from "../reducers/notificationReducer"
