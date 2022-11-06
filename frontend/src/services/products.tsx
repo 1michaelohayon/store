@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Product } from "../types";
 import { apiBaseUrl } from "../constants"
-const baseUrl = `${apiBaseUrl}product`
+const baseUrl = `${apiBaseUrl}products`
 
 const getAll = async () => {
   const response = await axios.get<Product[]>(baseUrl)

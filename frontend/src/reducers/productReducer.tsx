@@ -4,7 +4,6 @@ import { Product } from "../types"
 import { AppDispatch } from ".."
 
 
-
 const productSlice = createSlice({
   name: 'products',
   initialState: [] as Product[],

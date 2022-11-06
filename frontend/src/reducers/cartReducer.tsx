@@ -4,6 +4,7 @@ import { AppDispatch } from ".."
 import { CartListing } from "../types"
 
 
+
 const cartSlice = createSlice({
   name: 'cart',
   initialState: [] as CartListing[],
@@ -16,7 +17,7 @@ const cartSlice = createSlice({
       productInCart
         ? productInCart.amount += cartListing.amount
         : state.push(cartListing);
-
+      
     },
     removeProduct: (state, action: PayloadAction<CartListing>) => {
       const productId = action.payload.product.id
