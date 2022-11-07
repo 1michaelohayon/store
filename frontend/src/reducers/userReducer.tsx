@@ -1,10 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import loginService from '../services/login'
 import { AppDispatch } from ".."
-import { Credentials } from "../types"
+import { CartListing, Credentials } from "../types"
 import { setNotification } from "./notificationReducer"
 
 interface User {
+  id: string
+  inCart: CartListing[]
   token: string,
   username: string
 }

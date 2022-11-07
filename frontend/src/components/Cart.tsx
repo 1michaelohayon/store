@@ -30,6 +30,7 @@ export default Cart
 const CartItem = ({ product, amount }: CartListing): JSX.Element => {
   const dispatch: AppDispatch = useDispatch()
 
+
   const handleAdd = () => {
     dispatch(addToCart(product))
     dispatch(setNotification(`${product.name} added.`, 3))

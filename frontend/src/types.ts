@@ -1,8 +1,16 @@
-export interface Credentials{
+export interface Credentials {
   username: string,
   password: string
 }
 
+export interface cartItem {
+  product: string,
+  amount: number
+}
+export interface CartUpdate {
+  userId: string,
+  inCart: CartListing
+}
 
 export interface Product {
   id: string,

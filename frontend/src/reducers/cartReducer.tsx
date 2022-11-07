@@ -2,7 +2,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { Product } from "../types"
 import { AppDispatch } from ".."
 import { CartListing } from "../types"
-
+import { CartUpdate } from "../types"
+import userService from "../services/user"
 
 
 const cartSlice = createSlice({
@@ -17,6 +18,21 @@ const cartSlice = createSlice({
       productInCart
         ? productInCart.amount += cartListing.amount
         : state.push(cartListing);
+
+    },
+    addProductToUser: (state, action: PayloadAction<CartUpdate>) => {
+      const update = action.payload
+
+      const findDuplicate = (listing: CartListing) => state.find(c => c.product.id === listing.product.id);
+      const productInCart = findDuplicate(update.inCart)
+
+      if (productInCart) {
+        productInCart.amount += update.inCart.amount
+        update.inCart.amount = productInCart.amount
+      } else {
+        state.push(update.inCart);
+      }
+      userService.updateCart(update)
     },
     removeProduct: (state, action: PayloadAction<CartListing>) => {
       const productId = action.payload.product.id
@@ -31,13 +47,14 @@ const cartSlice = createSlice({
       }
 
     },
-    setCart: (state, action: PayloadAction<CartListing[]>) => {
-      state = action.payload
+    setCart: (_state, action: PayloadAction<CartListing[]>) => {
+      return action.payload
     }
   },
+
 })
 
-export const { addProduct, removeProduct, setCart } = cartSlice.actions
+export const { addProduct, removeProduct, setCart, addProductToUser } = cartSlice.actions
 
 
 export const addToCart = (product: Product) => {
@@ -52,10 +69,21 @@ export const removeFromCart = (product: CartListing) => {
   }
 }
 
-export const rememberedCart = (products: CartListing[])=> {
+export const updateUserCart = (update: {userId: string, product: Product}) => {
+  const cartUpdate = {
+    userId: update.userId,
+    inCart: {product: update.product, amount: 1}
+  }
   return async (dispatch: AppDispatch) => {
-    dispatch(setCart(products))
+    dispatch(addProductToUser(cartUpdate))
   }
 }
 
+
+
+export const setUserCart = (cart: CartListing[]) => {
+  return async (dispatch: AppDispatch) => {
+    dispatch(setCart(cart))
+  }
+}
 export default cartSlice.reducer

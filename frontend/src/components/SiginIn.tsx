@@ -7,8 +7,10 @@ import { logIn } from '../reducers/userReducer';
 import { RootState } from ".."
 import { useNavigate } from "react-router-dom"
 import { useEffect } from 'react';
-const { FieldContainer } = style
+import { setUserCart } from '../reducers/cartReducer';
 
+
+const { FieldContainer } = style
 
 interface Values {
   username: string;
@@ -25,8 +27,10 @@ const SignIn = () => {
 useEffect(() =>{
   if (user) {
     navigate("/")
+    dispatch(setUserCart(user.inCart))
+
   }
-},[navigate, user])
+},[dispatch, navigate, user])
 
   const valdiationSchema = yup.object().shape({
     username: yup

@@ -11,13 +11,14 @@ const getAll = async () => {
 const create = async (newProduct: Product) => {
   const response = await axios.post<Product>(baseUrl, newProduct)
   return response.data
-
 }
+
+
 
 
 const productsService = {
   getAll,
-  create
+  create,
 }
 
 export default productsService

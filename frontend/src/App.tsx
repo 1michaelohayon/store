@@ -10,6 +10,7 @@ import ProductPage from "./components/ProductPage";
 import { useSelector } from "react-redux";
 import { RootState } from ".";
 import { assignUser } from "./reducers/userReducer";
+import { setUserCart } from "./reducers/cartReducer";
 import {
   BrowserRouter as Router,
   Routes,
@@ -25,6 +26,7 @@ const App = () => {
     if (loggedUnderJSON) {
       const user = JSON.parse(loggedUnderJSON)
       dispatch(assignUser(user))
+      dispatch(setUserCart(user.inCart))
     }
   }, [dispatch])
 
