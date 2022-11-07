@@ -1,15 +1,11 @@
 import * as yup from 'yup'
 import { Form, Formik, Field, FormikProps } from 'formik';
 import style from '../theme/formField'
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { AppDispatch } from "..";
 import { logIn } from '../reducers/userReducer';
-import { RootState } from ".."
-import { useNavigate } from "react-router-dom"
-import { useEffect } from 'react';
-import { setUserCart } from '../reducers/cartReducer';
 
-
+import { useFetchUserAndNavigate } from '../hooks';
 const { FieldContainer } = style
 
 interface Values {
@@ -19,18 +15,7 @@ interface Values {
 
 const SignIn = () => {
   const dispatch: AppDispatch = useDispatch()
-  const navigate = useNavigate()
-
-  const user = useSelector(
-    (state: RootState) => state.user)
-
-useEffect(() =>{
-  if (user) {
-    navigate("/")
-    dispatch(setUserCart(user.inCart))
-
-  }
-},[dispatch, navigate, user])
+  useFetchUserAndNavigate()
 
   const valdiationSchema = yup.object().shape({
     username: yup

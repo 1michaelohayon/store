@@ -1,9 +1,9 @@
-import { CartUpdate, Product, cartItem } from "../types";
-import { addToCart, addToUserCart } from "../reducers/cartReducer"
+import { Product } from "../types";
+import { addToCart } from "../reducers/cartReducer"
 import { useDispatch, useSelector } from "react-redux";
-import { setNotification } from "../reducers/notificationReducer"
 import { AppDispatch } from "..";
 import { RootState } from ".."
+import { useResponsiveStock } from "../hooks";
 
 interface Props {
   product: Product
@@ -11,34 +11,12 @@ interface Props {
 
 const ProductPage = ({ product }: Props) => {
   const dispatch: AppDispatch = useDispatch()
+  const responsiveStock = useResponsiveStock(product)
+
   const user = useSelector(
     (state: RootState) => state.user)
-  const cart = useSelector(
-    (state: RootState) => state.cart)
 
-
-
-  const addedToCart = cart.find(c => c.product.id === product.id)
-
-
-  const responsiveStock = addedToCart ? product.stock - addedToCart.amount : product.stock
-
-  const handleAddToCart = async (product: Product) => {
-    if (responsiveStock) {
-
-
-      user
-      ? await dispatch(addToUserCart({ userId: user.id, product: product }))
-      : await dispatch(addToCart(product))
-      
-      await dispatch(setNotification(`${product.name} added to cart.`, 3))
-
-
-    } else {
-      dispatch(setNotification(`${product.name} is out of stock`, 3))
-
-    }
-  }
+  const handleAddToCart = () => dispatch(addToCart(user, responsiveStock, product))
 
 
   return <>
@@ -48,7 +26,7 @@ const ProductPage = ({ product }: Props) => {
     <p>{product.specifications?.weight}</p>
     <p>{responsiveStock}</p>
     <p>{product.type}</p>
-    <button onClick={() => handleAddToCart(product)}>add to cart</button>
+    <button onClick={() => handleAddToCart()}>add to cart</button>
   </>
 }
 

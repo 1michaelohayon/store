@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { Product } from "../types"
+import { Product, User } from "../types"
 import { AppDispatch } from ".."
 import { CartListing } from "../types"
 import { CartUpdate } from "../types"
 import userService from "../services/user"
-
+import { setNotification } from "./notificationReducer"
+import { useResponsiveStock } from "../hooks"
 
 const cartSlice = createSlice({
   name: 'cart',
@@ -73,42 +74,54 @@ const cartSlice = createSlice({
 export const { addProduct, removeProduct, setCart, addProductToUser, removeFromUserCart } = cartSlice.actions
 
 
-export const addToCart = (product: Product) => {
-  return async (dispatch: AppDispatch) => {
-    dispatch(addProduct({ product, amount: 1 }))
-  }
-}
-
-export const removeFromCart = (product: CartListing) => {
-  return async (dispatch: AppDispatch) => {
-    dispatch(removeProduct(product))
-  }
-}
-
-export const addToUserCart = (update: { userId: string, product: Product }) => {
-  const cartUpdate = {
-    userId: update.userId,
-    inCart: { product: update.product, amount: 1 }
-  }
-  return async (dispatch: AppDispatch) => {
-    dispatch(addProductToUser(cartUpdate))
-  }
-}
-
-export const removeInUserCart = (update: { userId: string, product: Product }) => {
-  const cartUpdate = {
-    userId: update.userId,
-    inCart: { product: update.product, amount: 1 }
-  }
-  return async (dispatch: AppDispatch) => {
-    dispatch(removeFromUserCart(cartUpdate))
-  }
-}
-
-
 export const setUserCart = (cart: CartListing[]) => {
   return async (dispatch: AppDispatch) => {
     dispatch(setCart(cart))
   }
 }
+
+export const addToCart = (user: (User | null), responsiveStock: number, product: Product) => {
+  return async (dispatch: AppDispatch) => {
+    if (responsiveStock) {
+
+      if (user) {
+        const cartUpdate = {
+          userId: user.id,
+          inCart: { product: product, amount: 1 }
+        }
+        dispatch(addProductToUser(cartUpdate))
+
+      } else {
+        dispatch(addProduct({ product, amount: 1 }))
+      }
+
+      await dispatch(setNotification(`${product.name} added to cart.`, 3))
+
+    } else {
+      dispatch(setNotification(`${product.name} is out of stock`, 3))
+
+    }
+  }
+}
+
+
+export const removeFromCart = (user: (User | null), product: Product, amount: number) => {
+  return async (dispatch: AppDispatch) => {
+    if (user) {
+      const cartUpdate = {
+        userId: user.id,
+        inCart: { product: product, amount: 1 }
+      }
+      dispatch(removeFromUserCart(cartUpdate))
+    } else {
+      dispatch(removeProduct({ product, amount }))
+
+    }
+    dispatch(setNotification(`${product.name} removed.`, 3))
+  }
+}
+
+
+
 export default cartSlice.reducer
+

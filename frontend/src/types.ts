@@ -32,3 +32,10 @@ export interface CartListing {
   product: Product;
   amount: number;
 }
+
+export interface User {
+  id: string
+  inCart: CartListing[]
+  token: string,
+  username: string
+}
