@@ -1,5 +1,5 @@
 import { CartUpdate, Product, cartItem } from "../types";
-import { addToCart, updateUserCart } from "../reducers/cartReducer"
+import { addToCart, addToUserCart } from "../reducers/cartReducer"
 import { useDispatch, useSelector } from "react-redux";
 import { setNotification } from "../reducers/notificationReducer"
 import { AppDispatch } from "..";
@@ -26,10 +26,11 @@ const ProductPage = ({ product }: Props) => {
   const handleAddToCart = async (product: Product) => {
     if (responsiveStock) {
 
-      user
-        ? await dispatch(updateUserCart({ userId: user.id, product: product }))
-        : await dispatch(addToCart(product))
 
+      user
+      ? await dispatch(addToUserCart({ userId: user.id, product: product }))
+      : await dispatch(addToCart(product))
+      
       await dispatch(setNotification(`${product.name} added to cart.`, 3))
 
 

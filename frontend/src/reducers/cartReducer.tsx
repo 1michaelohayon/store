@@ -47,6 +47,22 @@ const cartSlice = createSlice({
       }
 
     },
+    removeFromUserCart: (state, action: PayloadAction<CartUpdate>) => {
+      const update = action.payload
+      const productId = update.inCart.product.id
+      const target = state.find(c => c.product.id === productId)
+
+      if (target && target.amount > 1) {
+        target.amount--
+        update.inCart.amount = target.amount
+        userService.updateCart(update)
+      } else if (target && target.amount <= 1) {
+        const removedFromCart = state.filter(c => c.product.id !== productId)
+        userService.deleteFromCart({ userId: update.userId, productId: productId })
+        return state = removedFromCart
+      }
+
+    },
     setCart: (_state, action: PayloadAction<CartListing[]>) => {
       return action.payload
     }
@@ -54,7 +70,7 @@ const cartSlice = createSlice({
 
 })
 
-export const { addProduct, removeProduct, setCart, addProductToUser } = cartSlice.actions
+export const { addProduct, removeProduct, setCart, addProductToUser, removeFromUserCart } = cartSlice.actions
 
 
 export const addToCart = (product: Product) => {
@@ -69,16 +85,25 @@ export const removeFromCart = (product: CartListing) => {
   }
 }
 
-export const updateUserCart = (update: {userId: string, product: Product}) => {
+export const addToUserCart = (update: { userId: string, product: Product }) => {
   const cartUpdate = {
     userId: update.userId,
-    inCart: {product: update.product, amount: 1}
+    inCart: { product: update.product, amount: 1 }
   }
   return async (dispatch: AppDispatch) => {
     dispatch(addProductToUser(cartUpdate))
   }
 }
 
+export const removeInUserCart = (update: { userId: string, product: Product }) => {
+  const cartUpdate = {
+    userId: update.userId,
+    inCart: { product: update.product, amount: 1 }
+  }
+  return async (dispatch: AppDispatch) => {
+    dispatch(removeFromUserCart(cartUpdate))
+  }
+}
 
 
 export const setUserCart = (cart: CartListing[]) => {

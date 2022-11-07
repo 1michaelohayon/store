@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import { RootState } from ".";
 import { assignUser } from "./reducers/userReducer";
 import { setUserCart } from "./reducers/cartReducer";
+import userService from "./services/user";
 import {
   BrowserRouter as Router,
   Routes,
@@ -26,7 +27,11 @@ const App = () => {
     if (loggedUnderJSON) {
       const user = JSON.parse(loggedUnderJSON)
       dispatch(assignUser(user))
-      dispatch(setUserCart(user.inCart))
+      const setCart = async () => {
+        const getUpdatedUser = await userService.getUser(user.id)
+        await dispatch(setUserCart(getUpdatedUser.inCart))
+      }
+      setCart()
     }
   }, [dispatch])
 

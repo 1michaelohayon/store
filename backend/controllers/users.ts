@@ -14,11 +14,64 @@ usersRouter.get('/:id', async (req, res) => {
   const user = await UserSchema.findById(req.params.id)
     .populate("inCart.product", {
       id: 1,
+      type: 1,
+      name: 1,
+      description: 1,
+      stock: 1,
+      available: 1,
+      specifications: 1,
+      cratedAt: 1,
+      updatedAt: 1
     })
   user
     ? res.json(user)
     : res.status(404).end('user not found')
 })
+
+usersRouter.get('/:id/inCart/:productId', async (req, res) => {
+  const user = await UserSchema.findById(req.params.id)
+    .populate("inCart.product", {
+      id: 1,
+      type: 1,
+      name: 1,
+      description: 1,
+      stock: 1,
+      available: 1,
+      specifications: 1,
+      cratedAt: 1,
+      updatedAt: 1
+    })
+
+  const productInCart = user?.inCart.find(c => c.product?.id.toString() === req.params.productId.toString())
+
+
+  user
+    ? res.json(productInCart)
+    : res.status(404).end('user not found')
+})
+
+usersRouter.delete('/:id/inCart/:productId', async (req, res) => {
+  const user = await UserSchema.findById(req.params.id)
+    .populate("inCart.product", {
+      id: 1,
+    })
+
+  if (!user) {
+    return res.status(404).end('user not found')
+  }
+
+  const productInCart = user?.inCart.find(c => c.product?.id.toString() === req.params.productId.toString())
+  if (!productInCart) {
+    return res.status(404).end('product not found')
+  }
+
+  user.inCart = user.inCart.filter((c: any) => c.product.id !== productInCart.product?.id)
+  await user.save()
+
+  return res.status(200).end()
+
+})
+
 
 
 usersRouter.put('/:id', async (req, res) => {
@@ -55,7 +108,6 @@ usersRouter.put('/:id', async (req, res) => {
     return res.json(targetUser)
   } else {
     return res.status(404).end('user not found')
-
   }
 
 })

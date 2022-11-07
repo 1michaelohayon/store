@@ -1,4 +1,4 @@
-import { addToCart, removeFromCart } from "../reducers/cartReducer"
+import { addToCart, removeFromCart, addToUserCart, removeInUserCart } from "../reducers/cartReducer"
 import { useDispatch, useSelector } from "react-redux";
 import { setNotification } from "../reducers/notificationReducer"
 import { AppDispatch } from "..";
@@ -30,14 +30,22 @@ export default Cart
 const CartItem = ({ product, amount }: CartListing): JSX.Element => {
   const dispatch: AppDispatch = useDispatch()
 
+  const user = useSelector(
+    (state: RootState) => state.user)
 
-  const handleAdd = () => {
-    dispatch(addToCart(product))
-    dispatch(setNotification(`${product.name} added.`, 3))
+
+  const handleAdd = async () => {
+    user
+      ? await dispatch(addToUserCart({ userId: user.id, product: product }))
+      : await dispatch(addToCart(product))
+
+    await dispatch(setNotification(`${product.name} added to cart.`, 3))
   }
 
-  const handleRemove = () => {
-    dispatch(removeFromCart({product, amount}))
+  const handleRemove = async () => {
+    user
+      ? await dispatch(removeInUserCart({ userId: user.id, product: product }))
+      : await dispatch(removeFromCart({ product, amount }))
     dispatch(setNotification(`${product.name} removed.`, 3))
   }
 

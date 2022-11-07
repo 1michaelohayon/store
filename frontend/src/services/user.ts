@@ -4,6 +4,11 @@ import { apiBaseUrl } from '../constants'
 const baseUrl = `${apiBaseUrl}users`
 
 
+const getUser = async (id: string) => {
+  const response = await axios.get(`${baseUrl}/${id}`)
+  return response.data
+}
+
 
 const updateCart = async ({ userId, inCart }: CartUpdate) => {
   const product = {
@@ -16,8 +21,22 @@ const updateCart = async ({ userId, inCart }: CartUpdate) => {
   return response.data
 }
 
+
+
+const deleteFromCart = async ({ userId, productId }: { userId: string, productId: string }) => {
+
+  const response = await axios.delete(`${baseUrl}/${userId}/inCart/${productId}`)
+
+  return response.data
+
+}
+
+
+
 const userService = {
-  updateCart
+  updateCart,
+  deleteFromCart,
+  getUser
 }
 export default userService
 
