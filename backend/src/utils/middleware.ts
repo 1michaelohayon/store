@@ -3,7 +3,7 @@ import userSchema from "../modals/user";
 import jwt, { Secret, JwtPayload } from "jsonwebtoken";
 import express from "express";
 import config from "./config";
-
+import morgan from "morgan"
 
 export const validateProduct = async (req: express.Request, res: express.Response, next: Function) => {
   try {
@@ -38,4 +38,13 @@ export const userExtractor = async (req: userReq, _res: express.Response, next: 
     req.user = null;
   }
   return next();
+};
+
+
+
+export const morganLog = () => {
+  morgan.token("body", (req:express.Request) => JSON.stringify(req.body));
+  return morgan(
+    ":method :url :status :res[content-length] - :response-time ms :body"
+  );
 };

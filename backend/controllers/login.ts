@@ -9,11 +9,24 @@ loginRouter.post('/', async (request, response) => {
   const { username, password } = request.body
 
   const user = await userSchema.findOne({ username })
+    .populate("inCart.product", {
+      type: 1,
+      name: 1,
+      description: 1,
+      stock: 1,
+      available: 1,
+      specifications: 1,
+      cratedAt: 1,
+      updatedAt: 1
+    })
+
+
+
   const passwordCorrect = user === null
     ? false
     : user.passwordHash === undefined
-    ? false
-    : await bcrypt.compare(password, user.passwordHash)
+      ? false
+      : await bcrypt.compare(password, user.passwordHash)
 
   if (!(user && passwordCorrect)) {
     return response.status(401).json({ error: 'invalid username or password' })
@@ -27,7 +40,7 @@ loginRouter.post('/', async (request, response) => {
 
   return response
     .status(200)
-    .send({ token, username: user.username, name: user.name })
+    .send({ token, id: user.id, inCart: user.inCart, username: user.username, name: user.name })
 })
 
 export default loginRouter

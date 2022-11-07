@@ -14,12 +14,18 @@ export interface Product {
   updatedAt: Date
 }
 
+export interface CartListing {
+  product: Product,
+  amount: number
+}
+
 export interface User {
   username: string,
   name?: String,
   email?: String,
   address?: String,
   passwordHash: String,
+  inCart?: CartListing[]
 }
 
 export type newProduct = Omit<Product, "id" | "cratedAt" | "updatedAt">
