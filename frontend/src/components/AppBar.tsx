@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { RootState } from ".."
 
-const { TabsContainer, Tab, TabButton, CartContainer, Container } = style
+const { TabsContainer, Tab, TabButton, CartContainer, Container, Title } = style
 
 const AppBar = (): JSX.Element => {
 
@@ -15,16 +15,17 @@ const AppBar = (): JSX.Element => {
   const inCart: string = cart.reduce((prev, current) => prev + current.amount, 0).toString()
 
   const isUserLogged = user
-    ? <AppBarTab title={"account"} destination="/login" />
-    : <AppBarTab title={"login"} destination="/login" />
+    ? <AppBarTab title={"Account"} destination="/login" />
+    : <AppBarTab title={"Login"} destination="/login" />
 
 
   return (
     <div>
       <Container>
+        <Title>Store</Title>
         <TabsContainer>
-          <AppBarTab title={"products"} destination="" />
-          <AppBarTab title={"other"} destination="" />
+          <AppBarTab title={"Products"} destination="" />
+          <AppBarTab title={"Other"} destination="" />
           {isUserLogged}
         </TabsContainer>
         <CartContainer>
@@ -51,15 +52,4 @@ const AppBarTab = ({ title, destination }: TabProps) => (
   </Tab>
 )
 
-
-const Cart = () => {
-  const cart = useSelector(
-    (state: RootState) => state.cart)
-  return (
-    <div>
-      {cart.reduce((prev, current) => prev + current.amount, 0)}
-    </div>
-  )
-
-}
 

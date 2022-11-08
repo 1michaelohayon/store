@@ -21,6 +21,9 @@ productRouter.post("/", validateProduct, async (req, res) => {
     stock: body.stock,
     available: body.available,
     specifications: body.specifications,
+    photo: body.photo,
+    price: body.price,
+    secondaryPhotos: body.secondaryPhotos,
     updatedAt: new Date(),
     cratedAt: new Date(),
   })

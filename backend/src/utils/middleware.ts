@@ -27,7 +27,6 @@ interface userReq extends express.Request {
 
 
 
-
 export const userExtractor = async (req: userReq, _res: express.Response, next: Function) => {
   const authorization = req.get("authorization");
   if (authorization && authorization.toLowerCase().startsWith("bearer ")) {

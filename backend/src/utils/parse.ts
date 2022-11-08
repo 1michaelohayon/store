@@ -22,6 +22,12 @@ const isName = (name: unknown): string => {
   }
   return name;
 };
+const isPhoto = (mainPhoto: unknown): string => {
+  if (!mainPhoto || !isString(mainPhoto)) {
+    throw new Error(`Incorrect or missing main photo`);
+  }
+  return mainPhoto;
+};
 const isType = (type: unknown): string => {
   if (!type || !isString(type)) {
     throw new Error(`Incorrect or missing type`);
@@ -36,7 +42,7 @@ const isStock = (stock: unknown): number => {
 };
 
 const isAvailable = (available: unknown): boolean => {
-  if (!available || !isBoolean(available)) {
+  if (!isBoolean(available)) {
     throw new Error(`Incorrect or missing availble`);
   }
   return available;
@@ -50,6 +56,8 @@ type productFields = {
   available: unknown,
   cratedAt: unknown,
   updatedAt: unknown
+  photo: unknown
+
 }
 
 export const validProduct = (body: productFields): newProduct => {
@@ -58,6 +66,7 @@ export const validProduct = (body: productFields): newProduct => {
     type: isType(body.type),
     stock: isStock(body.stock),
     available: isAvailable(body.available),
+    photo: isPhoto(body.photo)
 
   }
 }

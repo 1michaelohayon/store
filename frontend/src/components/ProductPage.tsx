@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "..";
 import { RootState } from ".."
 import { useResponsiveStock } from "../hooks";
+import {PrimaryButton} from "../theme"
 
 interface Props {
   product: Product
@@ -26,7 +27,7 @@ const ProductPage = ({ product }: Props) => {
     <p>{product.specifications?.weight}</p>
     <p>{responsiveStock}</p>
     <p>{product.type}</p>
-    <button onClick={() => handleAddToCart()}>add to cart</button>
+    <PrimaryButton onClick={() => handleAddToCart()}>add to cart</PrimaryButton>
   </>
 }
 

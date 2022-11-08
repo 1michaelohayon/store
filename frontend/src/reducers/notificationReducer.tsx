@@ -2,26 +2,31 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { AppDispatch } from ".."
 
 
-type notification = null | string
+import { Notification, NotificationStyle } from "../types"
 
+
+const placeHolder: Notification = {
+  style: NotificationStyle.placeholder,
+  message: ""
+}
 
 const notificationSlice = createSlice({
   name: 'notifications',
-  initialState: "",
+  initialState: placeHolder,
   reducers: {
-    voteNotification(state: notification, action: PayloadAction<string>) {
-
-      return state = action.payload
+    Notify(state: (Notification), action: PayloadAction<Notification>) {
+      const test = action.payload
+      return state = test
     },
     resetNotification(state) {
 
-      return state = ""
+      return state = placeHolder
 
     }
   }
 })
 
-export const { voteNotification, resetNotification } = notificationSlice.actions
+export const { Notify, resetNotification } = notificationSlice.actions
 
 let timeoutID: ReturnType<typeof setTimeout>
 
@@ -29,7 +34,7 @@ export const setNotification = (content: string, time: number) => {
   return async (dispatch: AppDispatch) => {
     clearTimeout(timeoutID)
     const timeInMS = time * 1000
-    dispatch(voteNotification(content))
+    dispatch(Notify({style: NotificationStyle.info, message: content}))
 
     timeoutID = setTimeout(() => {
       dispatch(resetNotification())
@@ -38,4 +43,28 @@ export const setNotification = (content: string, time: number) => {
   }
 }
 
+export const setSuccesfulNotification = (content: string, time: number) => {
+  return async (dispatch: AppDispatch) => {
+    clearTimeout(timeoutID)
+    const timeInMS = time * 1000
+    dispatch(Notify({style: NotificationStyle.success, message: content}))
+
+    timeoutID = setTimeout(() => {
+      dispatch(resetNotification())
+    }, timeInMS)
+
+  }
+}
+export const setErrorfulNotification = (content: string, time: number) => {
+  return async (dispatch: AppDispatch) => {
+    clearTimeout(timeoutID)
+    const timeInMS = time * 1000
+    dispatch(Notify({style: NotificationStyle.error, message: content}))
+
+    timeoutID = setTimeout(() => {
+      dispatch(resetNotification())
+    }, timeInMS)
+
+  }
+}
 export default notificationSlice.reducer

@@ -6,6 +6,9 @@ export interface Product {
   description?: string,
   stock: number,
   available: boolean,
+  price?: Number,
+  photo?: string,
+  secondaryPhotos?: string[],
   specifications?: {
     dimensions: string,
     weight: number

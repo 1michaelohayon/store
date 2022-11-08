@@ -4,6 +4,8 @@ import style from '../theme/formField'
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "..";
 import { logIn } from '../reducers/userReducer';
+import { PrimaryButton } from '../theme';
+import { PrimaryInputField } from '../theme';
 
 import { useFetchUserAndNavigate } from '../hooks';
 const { FieldContainer } = style
@@ -49,7 +51,7 @@ const SignIn = () => {
               <Field type="password" name="password" placeholder="password" />
             </FieldContainer>
             <FieldContainer>
-              <button type="submit">login</button>
+              <PrimaryButton type="submit">login</PrimaryButton>
             </FieldContainer>
           </Form>
         )}

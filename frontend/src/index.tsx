@@ -10,6 +10,7 @@ import notificationSlice from './reducers/notificationReducer'
 import searchFilterReducer from './reducers/searchFilterReducer'
 import userReducer from './reducers/userReducer'
 
+
 const store = configureStore({
   reducer: {
     products: productReducer,

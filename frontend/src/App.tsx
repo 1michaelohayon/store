@@ -15,6 +15,10 @@ import {
   Routes,
   Route
 } from 'react-router-dom'
+import style from "./theme/notification"
+import { NotificationStyle } from "./types";
+
+const { Success, Info, Error, PlaceHolder } = style
 
 
 const App = () => {
@@ -42,8 +46,15 @@ const App = () => {
   return (
     <>
       <AppBar />
-      {notification}
-
+      {notification.style === NotificationStyle.placeholder 
+        ? <PlaceHolder></PlaceHolder>
+        : notification.style === NotificationStyle.success
+          ? <Success>{notification.message}</Success>
+        : notification.style === NotificationStyle.error
+          ? <Error>{notification.message}</Error>
+          : <Info>{notification.message}</Info> 
+      }
+      
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<SignIn />} />

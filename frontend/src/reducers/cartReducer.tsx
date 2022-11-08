@@ -4,8 +4,7 @@ import { AppDispatch } from ".."
 import { CartListing } from "../types"
 import { CartUpdate } from "../types"
 import userService from "../services/user"
-import { setNotification } from "./notificationReducer"
-import { useResponsiveStock } from "../hooks"
+import { setNotification, setErrorfulNotification, setSuccesfulNotification} from "./notificationReducer"
 
 const cartSlice = createSlice({
   name: 'cart',
@@ -95,10 +94,10 @@ export const addToCart = (user: (User | null), responsiveStock: number, product:
         dispatch(addProduct({ product, amount: 1 }))
       }
 
-      await dispatch(setNotification(`${product.name} added to cart.`, 3))
+      await dispatch(setSuccesfulNotification(`${product.name} added to cart.`, 3))
 
     } else {
-      dispatch(setNotification(`${product.name} is out of stock`, 3))
+      dispatch(setErrorfulNotification(`${product.name} is out of stock`, 3))
 
     }
   }

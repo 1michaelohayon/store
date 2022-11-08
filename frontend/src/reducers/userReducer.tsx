@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import loginService from '../services/login'
 import { AppDispatch } from ".."
 import {  Credentials, User} from "../types"
-import { setNotification } from "./notificationReducer"
+import { setErrorfulNotification } from "./notificationReducer"
 
 
 
@@ -44,7 +44,7 @@ export const logIn = (loginObject: Credentials) => {
       window.localStorage.setItem('loggedStoreUser', JSON.stringify(user))
       dispatch(assignUser(user))
     } catch (error) {
-      dispatch(setNotification('wrong username or password', 3))
+      dispatch(setErrorfulNotification('Wrong username or password', 5))
     }
   }
 }
