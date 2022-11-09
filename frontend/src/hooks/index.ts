@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { useEffect } from "react"
+import { InputHTMLAttributes, TextareaHTMLAttributes, useEffect, useState } from "react"
 import { assignUser } from "../reducers/userReducer"
 import { setUserCart } from "../reducers/cartReducer"
 import userService from "../services/user"
@@ -71,4 +71,17 @@ export const useLogout = () => {
     navigate("/")
     dispatch(logout())
   }, [dispatch, navigate])
+}
+
+export const useField = (type: string) => {
+  const [value, setValue] = useState<string>('')
+  const onChange = (event: React.FormEvent<HTMLInputElement>) => {
+   setValue((event.target as HTMLInputElement).value)
+  }
+
+  return {
+    type,
+    value,
+    onChange,
+  }
 }

@@ -6,6 +6,7 @@ import { AppDispatch } from ".";
 import AppBar from "./components/AppBar";
 import Cart from "./components/Cart";
 import SignIn from "./components/SiginIn";
+import SignUp from "./components/SignUp";
 import ProductPage from "./components/ProductPage";
 import { useSelector } from "react-redux";
 import { RootState } from ".";
@@ -20,7 +21,6 @@ import style from "./theme/notification"
 import { NotificationStyle } from "./types";
 import { AppContainer } from "./theme";
 const { Success, Info, Error, PlaceHolder } = style
-
 
 const App = () => {
   const dispatch: AppDispatch = useDispatch()
@@ -59,6 +59,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<SignIn />} />
+        <Route path="/register" element={<SignUp />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/logout" element={<Logout />} />
         {productsRoutes}

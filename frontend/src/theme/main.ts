@@ -3,12 +3,13 @@ import styled from "styled-components"
 import theme from "."
 
 const MainContainer = styled.div`
-padding:5rem;
+padding-left: 7rem;
+padding-right: 7rem;
+margin-left: auto;
+margin-right: auto;
 
-@media (max-width: 1080px) {
+@media (max-width: 900px) {
   padding: 1rem;
-  margin-left: auto;
-  margin-right: auto;
 }
 `
 

@@ -1,11 +1,18 @@
 import axios from 'axios'
 import { CartUpdate } from '../types'
 import { apiBaseUrl } from '../constants'
+import { Credentials } from '../types'
+
 const baseUrl = `${apiBaseUrl}users`
 
 
 const getUser = async (id: string) => {
   const response = await axios.get(`${baseUrl}/${id}`)
+  return response.data
+}
+
+const create = async (creds: Credentials) => {
+  const response = await axios.post(baseUrl, creds)
   return response.data
 }
 
@@ -36,7 +43,8 @@ const deleteFromCart = async ({ userId, productId }: { userId: string, productId
 const userService = {
   updateCart,
   deleteFromCart,
-  getUser
+  getUser,
+  create
 }
 export default userService
 

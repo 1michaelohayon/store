@@ -3,6 +3,8 @@ export interface Credentials {
   password: string
 }
 
+
+
 export enum NotificationStyle {
   info = 'INFO',
   error = 'ERROR',

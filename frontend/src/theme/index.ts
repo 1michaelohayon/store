@@ -27,14 +27,22 @@ export const AppContainer = styled.div`
 background: ${theme.colors.secondryColor}; 
 margin: 0 !important;
 padding: 0 !important;
+text-align: center;
+
 `
 
 export const  PrimaryInputField = styled.input`
-
+border-radius: ${theme.roundness};
+padding: 14px;
+font-size: 17px;
+margin-top: 5px;
+border-color: ${theme.colors.primaryColor};
+margin-bottom: 30px;
 `
 export const PrimaryButton = styled.button`
 background: ${theme.colors.secondryColor};
 font-size: 1em;
+padding: 15px;
 border: 2px solid black;
 border-radius: ${theme.roundness};
 cursor: pointer;

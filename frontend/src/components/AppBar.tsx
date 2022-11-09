@@ -16,7 +16,11 @@ const AppBar = (): JSX.Element => {
 
   const isUserLogged = user
     ? <AppBarTab title={"Logout"} destination="/logout" />
-    : <AppBarTab title={"Login"} destination="/login" />
+    : <>
+      <AppBarTab title={"Signup"} destination="/register" />
+      <AppBarTab title={"Login"} destination="/login" />
+    </>
+
 
 
   return (
@@ -24,7 +28,7 @@ const AppBar = (): JSX.Element => {
       <table>
         <TabsContainer>
           <AppBarTab title={"Products"} destination="" />
-          <AppBarTab title={"Other"} destination="" />
+        <AppBarTab title={"Other"} destination="" />
           {isUserLogged}
           <AppBarTab title={`Cart ${inCart}`} destination="/cart" />
         </TabsContainer>

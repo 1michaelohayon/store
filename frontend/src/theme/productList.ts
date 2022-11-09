@@ -31,7 +31,6 @@ margin:0;
 
 const SearchFieldContainer = styled.div`
 text-align: center;
-padding-bottom: 0.5rem;
 `
 
 

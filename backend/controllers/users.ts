@@ -124,7 +124,7 @@ usersRouter.post('/', async (req, res) => {
   const existingUser = await UserSchema.findOne({ username })
 
   if (existingUser) {
-    return res.status(400).json({ error: 'username must be unique' })
+    return res.status(400).json({ error: 'Username is already taken.' })
   } else if (!req.body.password) {
     return res.status(400).json({ error: 'missing password' })
   } else if (req.body.password.length < 7) {
