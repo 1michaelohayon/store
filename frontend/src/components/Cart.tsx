@@ -14,7 +14,7 @@ const {
   Specifications,
   CartItemContainer,
   ButtonContainer,
-  Container
+  Container,
 } = style
 
 
@@ -29,20 +29,29 @@ const Cart = (): JSX.Element => {
 
   const total: number = cart.reduce((prev, cur) => prev + cur.amount * Number(cur.product.price), 0)
 
-  return <div>
+  return <Container>
     <CartContainer>
       {cart.map(listing => <CartItem
         key={listing.product.id}
         product={listing.product}
         amount={listing.amount} />)}
+
+    <tr>
+      <td>
+      </td>
+      <td>
+      </td>
+      <td>
+        <PrimaryButton>Checkout</PrimaryButton>
+      </td>
+      <td>
+      </td>
+      <td>
+        ${total}
+      </td>
+    </tr>
     </CartContainer>
-    <Container>
-      Total: ${total}
-    </Container>
-    <Container>
-      <PrimaryButton>Checkout</PrimaryButton>
-    </Container>
-  </div>
+  </Container>
 }
 
 export default Cart
@@ -58,20 +67,25 @@ const CartItem = ({ product, amount }: CartListing): JSX.Element => {
   const handleRemove = () => dispatch(removeFromCart(user, product, amount))
 
   return <CartItemContainer>
-    <CartImage src={product.photo} alt={product.name} />
-    <div>{product.name}: <br />
+    <td>
+      <CartImage src={product.photo} alt={product.name} />
+    </td>
+
+    <td>{product.name}: <br />
       <Specifications>
         {product.specifications?.dimensions} <br />
         {product.specifications?.weight} kg
-      </Specifications> <br />
-    </div>
-    <div>
+      </Specifications> 
+    </td>
+    <td>
       {amount}
-    </div>
+    </td>
     <ButtonContainer>
       <SecondaryCartButton onClick={() => handleAddToCart()}>+</SecondaryCartButton>
       <SecondaryCartButton onClick={handleRemove}>-</SecondaryCartButton>
     </ButtonContainer>
-    ${Number(product.price) * amount}
+    <td>
+      ${Number(product.price) * amount}
+    </td>
   </CartItemContainer>
 }

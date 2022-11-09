@@ -17,7 +17,7 @@ import {
 } from 'react-router-dom'
 import style from "./theme/notification"
 import { NotificationStyle } from "./types";
-
+import { AppContainer } from "./theme";
 const { Success, Info, Error, PlaceHolder } = style
 
 
@@ -44,7 +44,7 @@ const App = () => {
   )
 
   return (
-    <>
+    <AppContainer>
       <AppBar />
       {notification.style === NotificationStyle.placeholder 
         ? <PlaceHolder></PlaceHolder>
@@ -61,7 +61,7 @@ const App = () => {
         <Route path="/cart" element={<Cart />} />
         {productsRoutes}
       </Routes>
-    </>
+    </AppContainer>
   )
 }
 export default (

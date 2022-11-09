@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client'
 import { configureStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import App from './App'
-
 import productReducer from './reducers/productReducer';
 import cartReducer from './reducers/cartReducer'
 import notificationSlice from './reducers/notificationReducer'
@@ -35,9 +34,9 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <Provider store={store}>
-    {App}
-  </Provider>
+    <Provider store={store}>
+      {App}
+    </Provider>
 );
 
 

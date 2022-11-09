@@ -4,70 +4,33 @@ import theme from "."
 
 const Container = styled.ul`
 list-style: none;
+display:grid;
 padding: 0;
-gap: 0.7rem;
+margin:0;
 justify-content: center;
-display: flex;
-flex-wrap: wrap;
-position:absolute;
-
-
-@media (max-width: 600px) {
-  list-style: none;
-  padding: 0;
-  gap: 0.7rem;
-  justify-content: center;
-  display: flex;
-  flex-wrap: wrap;
-
-}
-
+gap: 5rem;
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 `
 const ProductContainer = styled.li`
-  width: 30%;
-  height: auto;
-  align-self: center;
-  flex: 0 0 auto;
+padding: 0;
+margin:5%;
 cursor: pointer;
 
-@media (max-width: 700px) {
-  width: 30%;
-  height: auto;
-  align-self: center;
-  flex: 0 0 90%;
 
 }
 `
 const FrontImage = styled.img`
+width: 20rem;
+height: 20rem;
 object-fit: cover;
-float: up;
-width: 25rem;
-height: 25rem;
-
 border-radius: ${theme.roundness};
-box-shadow: 0.5px 0.5px 3px black;
-
-@media (max-width: 600px) {
-  width: 24rem;
-  height: 24rem;
-  filter: blur(0px);
-  border-radius: 1.5%;
-
-  box-shadow: 1.5px 1.5px 7px black;
-}
-
-@media (max-width: 900px) {
-  width: 22rem;
-  height: 22rem;
-}
-
-
+box-shadow: 0.5px 0.5px 5px black;
+padding: 0;
+margin:0;
 `
 
 const SearchFieldContainer = styled.div`
-display: flex;
 
-margin: 1rem;
 `
 
 

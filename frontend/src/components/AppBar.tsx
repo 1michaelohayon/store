@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { RootState } from ".."
 
-const { TabsContainer, Tab, TabButton, CartContainer, Container, Title } = style
+const { TabsContainer, Tab, TabButton, Container, } = style
 
 const AppBar = (): JSX.Element => {
 
@@ -20,19 +20,16 @@ const AppBar = (): JSX.Element => {
 
 
   return (
-    <div>
-      <Container>
-        <Title>Store</Title>
+    <Container>
+      <table>
         <TabsContainer>
           <AppBarTab title={"Products"} destination="" />
           <AppBarTab title={"Other"} destination="" />
           {isUserLogged}
-        </TabsContainer>
-        <CartContainer>
           <AppBarTab title={`cart ${inCart}`} destination="/cart" />
-        </CartContainer>
-      </Container>
-    </div>
+        </TabsContainer>
+      </table>
+    </Container>
   )
 }
 
@@ -46,9 +43,11 @@ interface TabProps {
 }
 const AppBarTab = ({ title, destination }: TabProps) => (
   <Tab>
-    <Link to={destination}>
-      <TabButton>{title}</TabButton>
-    </Link>
+    <td>
+      <Link to={destination}>
+        <TabButton>{title}</TabButton>
+      </Link>
+    </td>
   </Tab>
 )
 
