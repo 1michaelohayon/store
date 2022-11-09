@@ -8,22 +8,21 @@ display:flex;
 justify-content: center;
 background: ${theme.colors.primaryColor};
 width: 100%;
-margin: 0 !important;
-padding: 0 !important;
+padding-top 2rem;
+padding-bottom 2rem;
+position: static; 
 
 }
 `
 
 
 const Title = styled.h1`
-margin: 0 !important;
 `
 
 const TabsContainer = styled.tbody`
 display: flex;
 list-style: none;
 
-margin: 0 !important;
 
 
 `

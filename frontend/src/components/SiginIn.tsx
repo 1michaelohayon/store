@@ -1,14 +1,11 @@
 import * as yup from 'yup'
 import { Form, Formik, Field, FormikProps } from 'formik';
-import style from '../theme/formField'
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "..";
 import { logIn } from '../reducers/userReducer';
 import { PrimaryButton } from '../theme';
-import { PrimaryInputField } from '../theme';
 
 import { useFetchUserAndNavigate } from '../hooks';
-const { FieldContainer } = style
 
 interface Values {
   username: string;
@@ -44,15 +41,9 @@ const SignIn = () => {
       >
         {(props: FormikProps<Values>) => (
           <Form>
-            <FieldContainer>
               <Field type="username" name="username" placeholder="username" />
-            </FieldContainer>
-            <FieldContainer>
               <Field type="password" name="password" placeholder="password" />
-            </FieldContainer>
-            <FieldContainer>
               <PrimaryButton type="submit">login</PrimaryButton>
-            </FieldContainer>
           </Form>
         )}
       </Formik>

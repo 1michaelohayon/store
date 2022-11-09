@@ -10,10 +10,11 @@ import ProductPage from "./components/ProductPage";
 import { useSelector } from "react-redux";
 import { RootState } from ".";
 import { useFetchUser } from "./hooks";
+import { useLogout } from "./hooks";
 import {
   BrowserRouter as Router,
   Routes,
-  Route
+  Route,
 } from 'react-router-dom'
 import style from "./theme/notification"
 import { NotificationStyle } from "./types";
@@ -46,19 +47,20 @@ const App = () => {
   return (
     <AppContainer>
       <AppBar />
-      {notification.style === NotificationStyle.placeholder 
+      {notification.style === NotificationStyle.placeholder
         ? <PlaceHolder></PlaceHolder>
         : notification.style === NotificationStyle.success
           ? <Success>{notification.message}</Success>
-        : notification.style === NotificationStyle.error
-          ? <Error>{notification.message}</Error>
-          : <Info>{notification.message}</Info> 
+          : notification.style === NotificationStyle.error
+            ? <Error>{notification.message}</Error>
+            : <Info>{notification.message}</Info>
       }
-      
+
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<SignIn />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/logout" element={<Logout />} />
         {productsRoutes}
       </Routes>
     </AppContainer>
@@ -69,3 +71,9 @@ export default (
     < App />
   </Router>
 );
+
+
+const Logout = () => {
+  useLogout()
+  return <></>
+}

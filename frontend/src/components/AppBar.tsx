@@ -15,7 +15,7 @@ const AppBar = (): JSX.Element => {
   const inCart: string = cart.reduce((prev, current) => prev + current.amount, 0).toString()
 
   const isUserLogged = user
-    ? <AppBarTab title={"Account"} destination="/login" />
+    ? <AppBarTab title={"Logout"} destination="/logout" />
     : <AppBarTab title={"Login"} destination="/login" />
 
 
@@ -26,7 +26,7 @@ const AppBar = (): JSX.Element => {
           <AppBarTab title={"Products"} destination="" />
           <AppBarTab title={"Other"} destination="" />
           {isUserLogged}
-          <AppBarTab title={`cart ${inCart}`} destination="/cart" />
+          <AppBarTab title={`Cart ${inCart}`} destination="/cart" />
         </TabsContainer>
       </table>
     </Container>

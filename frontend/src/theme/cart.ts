@@ -4,7 +4,7 @@ const Container = styled.table`
 display: flex;
 justify-content: center;
 border-collapse: separate;
-border-spacing: 0 1em;
+border-spacing: 0 1.5em;
 `
 const CartContainer = styled.tbody`
 
@@ -17,11 +17,14 @@ border-radius: ${theme.roundness};
 
 const CartImage = styled.img`
 margin: 0.2rem;
-width: 5rem;
-height 5rem;
+width: 7rem;
+height 7rem;
 object-fit: cover;
 border-radius: ${theme.roundness};
-
+@media (max-width: 800px) {
+  width: 3rem;
+  height 3rem;
+}
 
 `
 

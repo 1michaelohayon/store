@@ -16,7 +16,9 @@ const ProductList = ({ products }: Props): JSX.Element => {
  
   return (
     <div>
+      <SearchFieldContainer>
       <Filter />
+      </SearchFieldContainer>
       <Container>
         {products.map((p: Product) => 
           <ProductListing key={p.id} product={p} />

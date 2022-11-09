@@ -6,13 +6,14 @@ import userService from "../services/user"
 import { AppDispatch, RootState } from ".."
 import { useNavigate } from "react-router-dom"
 import { Product } from "../types"
+import { logout } from "../reducers/userReducer"
+
 
 export const useFetchUser = () => {
   const dispatch: AppDispatch = useDispatch()
 
 
   useEffect(() => {
-    console.log('hey');
     const loggedUnderJSON = window.localStorage.getItem('loggedStoreUser')
     if (loggedUnderJSON) {
       const user = JSON.parse(loggedUnderJSON)
@@ -58,5 +59,16 @@ export const useResponsiveStock = (product: Product) => {
   const responsiveStock = addedToCart ? product.stock - addedToCart.amount : product.stock
 
   return responsiveStock
-  
+
+}
+
+export const useLogout = () => {
+
+  const navigate = useNavigate()
+  const dispatch: AppDispatch = useDispatch()
+
+  useEffect(() => {
+    navigate("/")
+    dispatch(logout())
+  }, [dispatch, navigate])
 }
