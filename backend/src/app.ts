@@ -11,7 +11,7 @@ import userRouter from './controllers/users';
 import loginRouter from './controllers/login'
 
 
-if (!isString(config.MONGODB_URI)){
+if (!isString(config.MONGODB_URI)) {
   throw new Error("Mongodb URI is not a string")
 }
 

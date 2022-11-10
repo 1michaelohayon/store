@@ -21,13 +21,13 @@ export const validateProduct = async (req: express.Request, res: express.Respons
 interface JwtId extends JwtPayload {
   id: string
 }
-interface userReq extends express.Request {
-  user: JwtId | null
+export interface userReq extends express.Request {
+  user?: JwtId | null
 }
 
 
 
-export const userExtractor = async (req: userReq, _res: express.Response, next: Function) => {
+export const userExtractor = async (req: userReq, res: express.Response, next: Function) => {
   const authorization = req.get("authorization");
   if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
     const token = authorization.substring(7);
@@ -36,6 +36,7 @@ export const userExtractor = async (req: userReq, _res: express.Response, next: 
   } else {
     req.user = null;
   }
+  console.log(res)
   return next();
 };
 

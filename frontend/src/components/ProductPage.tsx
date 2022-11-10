@@ -6,7 +6,7 @@ import { RootState } from ".."
 import { useResponsiveStock } from "../hooks";
 import { PrimaryButton } from "../theme"
 import { useState } from "react";
-
+import { formatPrice } from "../util"
 import style from "../theme/productPage"
 
 
@@ -15,6 +15,7 @@ const { PrimaryImg, SecondaryImg, Table } = style
 interface Props {
   product: Product
 }
+
 
 
 const ProductPage = ({ product }: Props) => {
@@ -26,6 +27,7 @@ const ProductPage = ({ product }: Props) => {
     (state: RootState) => state.user)
 
   const handleAddToCart = () => dispatch(addToCart(user, responsiveStock, product))
+
 
   const thumbnails = product.photo && product.secondaryPhotos
     ? [product.photo, ...product.secondaryPhotos]
@@ -59,7 +61,7 @@ const ProductPage = ({ product }: Props) => {
               : responsiveStock}
           </p>
 
-          <p>{"$" + product.price?.toString()}</p>
+          <p>{formatPrice(product.price)}</p>
         </td>
       </tr>
       <tr>

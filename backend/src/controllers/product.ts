@@ -1,9 +1,11 @@
 import { Router } from "express";
 import ProductSchema from "../modals/product";
 import { Product, newProduct } from "../types";
-import { validateProduct } from "../utils/middleware"
-const productRouter = Router()
+import { validateProduct, userExtractor } from "../utils/middleware"
 
+
+
+const productRouter = Router()
 productRouter.get("/", async (_req, res) => {
   const products: Product[] = await ProductSchema.find({})
 
@@ -11,8 +13,15 @@ productRouter.get("/", async (_req, res) => {
 })
 
 
-productRouter.post("/", validateProduct, async (req, res) => {
+productRouter.post("/",userExtractor , validateProduct, async (req: any, res) => {
   const body: newProduct = req.body
+  
+  if (!req.user) {
+    return res.status(401).json({ error: 'token is missing or invalid' })
+  }
+  if (!req.user.admin) {
+    return res.status(401).json({ error: 'not allowed' })
+  }
 
   const newProduct = new ProductSchema({
     name: body.name,
@@ -29,7 +38,7 @@ productRouter.post("/", validateProduct, async (req, res) => {
   })
 
   const savedProduct = await newProduct.save();
-  res.status(201).json(savedProduct)
+  return res.status(201).json(savedProduct)
 })
 
 export default productRouter

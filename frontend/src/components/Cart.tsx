@@ -6,6 +6,7 @@ import { CartListing } from "../types"
 import { useResponsiveStock } from "../hooks";
 import style from "../theme/cart";
 import { PrimaryButton } from "../theme";
+import { formatPrice } from "../util";
 
 const {
   SecondaryCartButton,
@@ -47,7 +48,7 @@ const Cart = (): JSX.Element => {
       <td>
       </td>
       <td>
-        ${total}
+        {formatPrice(total)}
       </td>
     </tr>
     </CartContainer>
@@ -85,7 +86,7 @@ const CartItem = ({ product, amount }: CartListing): JSX.Element => {
       <SecondaryCartButton onClick={handleRemove}>-</SecondaryCartButton>
     </ButtonContainer>
     <td>
-      ${Number(product.price) * amount}
+      {formatPrice(Number(product.price) * amount)}
     </td>
   </CartItemContainer>
 }

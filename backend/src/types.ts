@@ -1,4 +1,6 @@
 import { Types } from "mongoose"
+import express from "express"
+
 
 export interface Product {
   id: string,
@@ -31,5 +33,6 @@ export interface User {
   passwordHash: String,
   inCart?: CartListing[]
 }
+
 
 export type newProduct = Omit<Product, "id" | "cratedAt" | "updatedAt">

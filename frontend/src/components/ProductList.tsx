@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 import { filterInput } from "../reducers/searchFilterReducer"
 import { useDispatch } from "react-redux";
 import { PrimaryInputField } from "../theme";
+import { formatPrice } from "../util";
 
 const { ProductContainer, Container, FrontImage, SearchFieldContainer } = style
 
@@ -38,7 +39,7 @@ const ProductListing = ({ product }: { product: Product }) => {
   onClick={() => navigate(`${product.type}/${product.id}`)}
 >
     <FrontImage src={product.photo} alt={product.name}/>
-    <div><h3>{product.name}</h3> <div>{product.available ? "$" + product.price : "coming soon..."}</div></div>
+    <div><h3>{product.name}</h3> <div>{product.available ? formatPrice(product.price): "coming soon..."}</div></div>
     </ProductContainer>
 }
 
