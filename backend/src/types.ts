@@ -1,3 +1,4 @@
+import { Types } from "mongoose"
 
 export interface Product {
   id: string,
@@ -18,8 +19,8 @@ export interface Product {
 }
 
 export interface CartListing {
-  product: Product,
-  amount: number
+  product?: Types.ObjectId,
+  amount?: number
 }
 
 export interface User {

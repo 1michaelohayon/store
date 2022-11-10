@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt"
 import UserSchema from "../modals/user";
+import { CartListing } from "../types";
 import { Router } from "express";
-
 const usersRouter = Router()
 
 
@@ -78,7 +78,7 @@ usersRouter.delete('/:id/inCart/:productId', async (req, res) => {
 
 
 
-usersRouter.put('/:id', async (req, res) => {
+usersRouter.put('/:id/inCart', async (req, res) => {
   const { inCart } = req.body
 
   const targetUser = await UserSchema.findById(
@@ -86,12 +86,20 @@ usersRouter.put('/:id', async (req, res) => {
   ).populate("inCart.product", {
     id: 1
   })
-
   if (targetUser) {
-    const alreadyInCart = targetUser.inCart.find((c: any) => c.product.id === inCart.product)
+    const onclyUnique = (cart: CartListing[]): CartListing[] => {
+      const unqiueSet: CartListing[] = []
+      const isDouble = (listing: any) => unqiueSet.some((obj: any) => obj.product.id === listing.product?.id)
+      cart.forEach(listing => {
+        if (!isDouble(listing)) {
+          unqiueSet.push(listing)
+        }
+      })
+      return unqiueSet
+    }
 
-    alreadyInCart ? alreadyInCart.amount = inCart.amount : targetUser.inCart.push(inCart)
-
+    const alreadyInCart = targetUser.inCart.find((c: CartListing) => c.product ? c.product.id === inCart.product : false)
+    alreadyInCart ? alreadyInCart.amount = inCart.amount : targetUser.inCart = onclyUnique([...targetUser.inCart, inCart])
 
     await targetUser.save()
 
@@ -102,8 +110,8 @@ usersRouter.put('/:id', async (req, res) => {
       description: 1,
       stock: 1,
       available: 1,
-      price:1,
-      photo:1,
+      price: 1,
+      photo: 1,
       specifications: 1,
       cratedAt: 1,
       updatedAt: 1
@@ -117,6 +125,12 @@ usersRouter.put('/:id', async (req, res) => {
   }
 
 })
+
+
+
+
+
+
 
 usersRouter.post('/', async (req, res) => {
   const { username, name, password } = req.body

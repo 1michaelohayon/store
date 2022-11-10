@@ -1,10 +1,8 @@
-import mongoose from "mongoose";
 import supertest from "supertest"
 import helper from "./test_helper";
 import product from "../src/modals/product";
 import app from "../src/app";
-const {initialProducts} = helper
-
+const { initialProducts } = helper
 const productsInDB = async () => {
   const products = await product.find({})
   return products.map(b => b.toJSON())
@@ -33,28 +31,99 @@ describe(`get and retrival tests`, () => {
     const response = await api.get('/api/products')
     expect(response.body[0].id).toBeDefined()
   }, 100000)
+
+  test('return dates', async () => {
+    const response = await api.get('/api/products')
+    
+    expect(response.body[0].updatedAt).toBeDefined()
+    expect(response.body[0].cratedAt).toBeDefined()
+
+  }, 100000)
 })
 
-describe('post/delete tests', () => {
-  const headerToken = {Accept: 'application/json' }
+describe('post tests', () => {
+  const headerToken = { Accept: 'application/json' }
+  const newProduct = helper.newProduct;
+  
+
 
   test('HTTP POST request to the /api/products url successfully', async () => {
-    const newProduct = helper.newProduct;
-    
-
     await api
-      .post('/api/products')
-      .set(headerToken)
-      .send(newProduct)
-      .expect(201)
-      .expect('Content-Type', /application\/json/)
+    .post('/api/products')
+    .set(headerToken)
+    .send(newProduct)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
 
     const productsAfter = await productsInDB()
     expect(productsAfter).toHaveLength(initialProducts.length + 1)
-
     const names = productsAfter.map(b => b.name)
     expect(names).toContain(helper.newProduct.name)
   })
 
+  test('400 error when no name', async () => {
+    const deletedName: any= newProduct 
+    delete deletedName.name
+
+    await api
+      .post('/api/products')
+      .set(headerToken)
+      .send(deletedName)
+      .expect(400)
+
+    const productsAfter = await productsInDB()
+    expect(productsAfter).toHaveLength(initialProducts.length)
+    const names = productsAfter.map(b => b.name)
+    expect(names).not.toContain(helper.newProduct.name)
+  })
+
+
+  test('400 error when no "available" boolean"', async () => {
+    const deletedAvailable: any= newProduct 
+    delete deletedAvailable.available
+
+    await api
+      .post('/api/products')
+      .set(headerToken)
+      .send(deletedAvailable)
+      .expect(400)
+
+    const productsAfter = await productsInDB()
+    expect(productsAfter).toHaveLength(initialProducts.length)
+    const names = productsAfter.map(b => b.name)
+    expect(names).not.toContain(helper.newProduct.name)
+  })
+
+  test('400 error when no stock', async () => {
+    const deleteStock: any= newProduct 
+    delete deleteStock.stock
+
+    await api
+      .post('/api/products')
+      .set(headerToken)
+      .send(deleteStock)
+      .expect(400)
+
+    const productsAfter = await productsInDB()
+    expect(productsAfter).toHaveLength(initialProducts.length)
+    const names = productsAfter.map(b => b.name)
+    expect(names).not.toContain(helper.newProduct.name)
+  })
+
+  test('400 error when no type', async () => {
+    const deleteType: any= newProduct 
+    delete deleteType.type
+
+    await api
+      .post('/api/products')
+      .set(headerToken)
+      .send(deleteType)
+      .expect(400)
+
+    const productsAfter = await productsInDB()
+    expect(productsAfter).toHaveLength(initialProducts.length)
+    const names = productsAfter.map(b => b.name)
+    expect(names).not.toContain(helper.newProduct.name)
+  })
 
 })

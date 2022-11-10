@@ -23,7 +23,7 @@ const updateCart = async ({ userId, inCart }: CartUpdate) => {
     amount: inCart.amount
   }
   const response = await axios.put(
-    `${baseUrl}/${userId}`, { inCart: product }
+    `${baseUrl}/${userId}/inCart`, { inCart: product }
   )
   return response.data
 }

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development ts-node-dev src/index.ts",
-    "test": "cross-env NODE_ENV=test jest --verbose --forceExit"
+    "test": "cross-env NODE_ENV=test jest --forceExit"
   },
   "author": "Michael Ohayon",
   "license": "ISC",
