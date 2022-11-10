@@ -1,5 +1,4 @@
 import { Types } from "mongoose"
-import express from "express"
 
 
 export interface Product {

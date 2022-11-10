@@ -11,6 +11,7 @@ import userRouter from './controllers/users';
 import loginRouter from './controllers/login'
 
 
+
 if (!isString(config.MONGODB_URI)) {
   throw new Error("Mongodb URI is not a string")
 }
@@ -29,6 +30,7 @@ mongoose
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.static('front_build'))
 app.use(morganLog())
 
 app.use("/api/products", productRouter);

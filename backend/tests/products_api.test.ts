@@ -46,79 +46,12 @@ describe('post tests', () => {
   const newProduct = helper.newProduct;
   
 
-
-  test('HTTP POST request to the /api/products url successfully', async () => {
-    await api
-    .post('/api/products')
-    .set(headerToken)
-    .send(newProduct)
-    .expect(201)
-    .expect('Content-Type', /application\/json/)
-
-    const productsAfter = await productsInDB()
-    expect(productsAfter).toHaveLength(initialProducts.length + 1)
-    const names = productsAfter.map(b => b.name)
-    expect(names).toContain(helper.newProduct.name)
-  })
-
-  test('400 error when no name', async () => {
-    const deletedName: any= newProduct 
-    delete deletedName.name
-
+  test('401 when trying to post"', async () => {
     await api
       .post('/api/products')
       .set(headerToken)
-      .send(deletedName)
-      .expect(400)
-
-    const productsAfter = await productsInDB()
-    expect(productsAfter).toHaveLength(initialProducts.length)
-    const names = productsAfter.map(b => b.name)
-    expect(names).not.toContain(helper.newProduct.name)
-  })
-
-
-  test('400 error when no "available" boolean"', async () => {
-    const deletedAvailable: any= newProduct 
-    delete deletedAvailable.available
-
-    await api
-      .post('/api/products')
-      .set(headerToken)
-      .send(deletedAvailable)
-      .expect(400)
-
-    const productsAfter = await productsInDB()
-    expect(productsAfter).toHaveLength(initialProducts.length)
-    const names = productsAfter.map(b => b.name)
-    expect(names).not.toContain(helper.newProduct.name)
-  })
-
-  test('400 error when no stock', async () => {
-    const deleteStock: any= newProduct 
-    delete deleteStock.stock
-
-    await api
-      .post('/api/products')
-      .set(headerToken)
-      .send(deleteStock)
-      .expect(400)
-
-    const productsAfter = await productsInDB()
-    expect(productsAfter).toHaveLength(initialProducts.length)
-    const names = productsAfter.map(b => b.name)
-    expect(names).not.toContain(helper.newProduct.name)
-  })
-
-  test('400 error when no type', async () => {
-    const deleteType: any= newProduct 
-    delete deleteType.type
-
-    await api
-      .post('/api/products')
-      .set(headerToken)
-      .send(deleteType)
-      .expect(400)
+      .send(newProduct)
+      .expect(401)
 
     const productsAfter = await productsInDB()
     expect(productsAfter).toHaveLength(initialProducts.length)

@@ -1,10 +1,12 @@
 {
-  "name": "backend",
+  "name": "store-backend",
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development ts-node-dev src/index.ts",
+    "tsc": "tsc",
+    "start": "node build/src/index.js",
     "test": "cross-env NODE_ENV=test jest --forceExit"
   },
   "author": "Michael Ohayon",

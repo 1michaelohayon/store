@@ -1,6 +1,5 @@
 
 import styled from "styled-components"
-import theme from "."
 
 const MainContainer = styled.div`
 padding-left: 7rem;

@@ -4,6 +4,7 @@ import { AppDispatch } from ".."
 import { Credentials, User } from "../types"
 import userService from "../services/user"
 import { setSuccesfulNotification, setErrorfulNotification } from "./notificationReducer"
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { AxiosError } from 'axios';
 
 
