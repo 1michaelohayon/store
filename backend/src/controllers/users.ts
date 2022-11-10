@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt"
-import UserSchema from "../src/modals/user";
+import UserSchema from "../modals/user";
 import { Router } from "express";
 
 const usersRouter = Router()

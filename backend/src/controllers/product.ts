@@ -1,7 +1,7 @@
 import { Router } from "express";
-import ProductSchema from "../src/modals/product";
-import { Product, newProduct } from "../src/types";
-import { validateProduct } from "../src/utils/middleware"
+import ProductSchema from "../modals/product";
+import { Product, newProduct } from "../types";
+import { validateProduct } from "../utils/middleware"
 const productRouter = Router()
 
 productRouter.get("/", async (_req, res) => {

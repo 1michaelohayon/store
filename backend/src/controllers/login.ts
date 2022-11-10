@@ -2,8 +2,8 @@ import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
 import { Router } from "express";
 const loginRouter = Router()
-import config from "../src/utils/config";
-import userSchema from "../src/modals/user"
+import config from "../utils/config";
+import userSchema from "../modals/user"
 
 loginRouter.post('/', async (request, response) => {
   const { username, password } = request.body

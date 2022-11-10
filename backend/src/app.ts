@@ -6,9 +6,9 @@ import mongoose from 'mongoose';
 import { isString } from "../src/utils/parse"
 import { morganLog } from './utils/middleware';
 
-import productRouter from '../controllers/product';
-import userRouter from '../controllers/users';
-import loginRouter from '../controllers/login'
+import productRouter from './controllers/product';
+import userRouter from './controllers/users';
+import loginRouter from './controllers/login'
 
 
 if (!isString(config.MONGODB_URI)){
