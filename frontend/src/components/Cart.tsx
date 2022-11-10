@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "..";
 import { RootState } from "..";
 import { CartListing } from "../types"
+import { setNotification } from "../reducers/notificationReducer";
 import { useResponsiveStock } from "../hooks";
 import style from "../theme/cart";
 import { PrimaryButton } from "../theme";
@@ -20,6 +21,7 @@ const {
 
 
 const Cart = (): JSX.Element => {
+  const dispatch: AppDispatch = useDispatch()
 
   const cart = useSelector(
     (state: RootState) => state.cart)
@@ -43,7 +45,7 @@ const Cart = (): JSX.Element => {
       <td>
       </td>
       <td>
-        <PrimaryButton>Checkout</PrimaryButton>
+        <PrimaryButton onClick={() => dispatch(setNotification("Thanks for checking out my project. Check out more at:  https://github.com/1michaelohayon", 30))}>Checkout</PrimaryButton>
       </td>
       <td>
       </td>
