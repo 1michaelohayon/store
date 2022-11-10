@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "..";
-import { logIn } from '../reducers/userReducer';
+import { register } from '../reducers/userReducer';
 import { PrimaryButton } from '../theme';
 import { useFetchUserAndNavigate } from '../hooks';
 import { useField } from "../hooks";
@@ -10,27 +10,34 @@ import { PrimaryInputField } from "../theme";
 
 
 
-const SignIn = () => {
+const SignUp = () => {
   const dispatch: AppDispatch = useDispatch()
   useFetchUserAndNavigate()
 
   const username = useField("text")
   const password = useField("password")
+  const name = useField("text")
+  const email = useField("email")
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (!username.value) {
-      dispatch(setErrorfulNotification("Username is empty", 3))
-    } else if (!password.value){
-      dispatch(setErrorfulNotification("Password is empty", 3))
+    if (username.value.length < 3) {
+      !username.value
+        ? dispatch(setErrorfulNotification("Username is empty", 5))
+        : dispatch(setErrorfulNotification("Username must be at least 3 characters long", 7))
 
+    } else if (password.value.length < 7) {
+      !password.value
+        ? dispatch(setErrorfulNotification("Password is empty", 5))
+        : dispatch(setErrorfulNotification("Passowrd must be at least 7 characters long", 7))
     } else {
       const credentials: Credentials = {
         username: username.value,
         password: password.value
       };
-      dispatch(logIn(credentials))
+      dispatch(register(credentials))
     }
+    
 
   }
 
@@ -43,15 +50,24 @@ const SignIn = () => {
         </div>
         <div>
           <PrimaryInputField {...password} placeholder="password"
-           />
+          />
         </div>
-        <PrimaryButton type="submit">login</PrimaryButton>
+
+        <div>
+          <PrimaryInputField {...name} placeholder="name, Not required for this demo.."
+          />
+        </div>
+        <div>
+          <PrimaryInputField {...email} placeholder="email, Not required for this demo.."
+          />
+        </div>
+        <PrimaryButton type="submit">Sign Up</PrimaryButton>
       </form>
     </div>
   )
 }
 
 
-export default SignIn
+export default SignUp
 
 

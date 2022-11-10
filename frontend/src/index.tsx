@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom/client'
 import { configureStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import App from './App'
-
 import productReducer from './reducers/productReducer';
 import cartReducer from './reducers/cartReducer'
 import notificationSlice from './reducers/notificationReducer'
 import searchFilterReducer from './reducers/searchFilterReducer'
+import userReducer from './reducers/userReducer'
 
 
 const store = configureStore({
@@ -15,7 +15,8 @@ const store = configureStore({
     products: productReducer,
     cart: cartReducer,
     notification: notificationSlice,
-    searchFilter: searchFilterReducer
+    searchFilter: searchFilterReducer,
+    user: userReducer
   }
 })
 
@@ -33,9 +34,9 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <Provider store={store}>
-    {App}
-  </Provider>
+    <Provider store={store}>
+      {App}
+    </Provider>
 );
 
 

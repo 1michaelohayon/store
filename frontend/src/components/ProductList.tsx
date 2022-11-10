@@ -3,7 +3,10 @@ import style from "../theme/productList"
 import { useNavigate } from "react-router-dom"
 import { filterInput } from "../reducers/searchFilterReducer"
 import { useDispatch } from "react-redux";
-const { ProductContainer, Container } = style
+import { PrimaryInputField } from "../theme";
+import { formatPrice } from "../util";
+
+const { ProductContainer, Container, FrontImage, SearchFieldContainer } = style
 
 
 interface Props {
@@ -11,19 +14,15 @@ interface Props {
 }
 
 const ProductList = ({ products }: Props): JSX.Element => {
-  const navigate = useNavigate()
+ 
   return (
     <div>
+      <SearchFieldContainer>
       <Filter />
-      <h1>List of products..</h1>
+      </SearchFieldContainer>
       <Container>
-        {products.map((p: Product) => <ProductContainer
-          key={p.id}
-          onClick={() => navigate(`${p.type}/${p.id}`)}
-        >
-          <ProductListing product={p} />
-        </ProductContainer>
-
+        {products.map((p: Product) => 
+          <ProductListing key={p.id} product={p} />
         )}
       </Container>
     </div>
@@ -34,23 +33,14 @@ export default ProductList;
 
 
 const ProductListing = ({ product }: { product: Product }) => {
-  if (!product.available) {
-    return (
-      <div>
-        <h2>{product.name}</h2>
-        <p>currently unavailble</p>
-      </div>
-    )
-  }
+  const navigate = useNavigate()
 
-  return <>
-    <h2>{product.name}</h2>
-    <p>{product.description}</p>
-    <p>{product.specifications?.dimensions}</p>
-    <p>{product.specifications?.weight}</p>
-    <p>{product.stock}</p>
-    <p>{product.type}</p>
-  </>
+  return <ProductContainer
+  onClick={() => navigate(`${product.type}/${product.id}`)}
+>
+    <FrontImage src={product.photo} alt={product.name}/>
+    <div><h3>{product.name}</h3> <div>{product.available ? formatPrice(product.price): "coming soon..."}</div></div>
+    </ProductContainer>
 }
 
 const Filter = () => {
@@ -61,8 +51,8 @@ const Filter = () => {
     dispatch(filterInput(event.currentTarget.value))
   }
   return (
-    <div>
-      Search <input onChange={handleChange} />
-    </div>
+    <SearchFieldContainer>
+    <PrimaryInputField onChange={handleChange} placeholder="Search"/>
+    </SearchFieldContainer>
   )
 }

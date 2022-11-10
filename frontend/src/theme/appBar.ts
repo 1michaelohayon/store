@@ -1,49 +1,67 @@
 
 import styled from "styled-components"
+import theme from "."
 
-const Container = styled.div`
-background: gray;
-display: flex;
-flex-diraction: row;
-color: white;
-padding: 0.7em;
-margin: 1em;
-justify-content: space-between;
-Overflow-y: scroll;
-`
-const CartContainer =styled.div`
-display: flex;
-flex-diraction: row;
+
+const Container = styled.header`
+display:flex;
+justify-content: center;
+background: ${theme.colors.primaryColor};
+width: 100%;
+padding-top 2rem;
+padding-bottom 2rem;
+position: static; 
+
+
+@media (max-width: 800px) {
+  overflow-y: scroll;
+  padding-top 1rem;
+padding-bottom 1rem;
+}
+}
 `
 
-const TabsContainer = styled.div`
-display: flex;
-flex-diraction: row;
-margin-right: 10%;
+
+const Title = styled.h1`
 `
-const Tab  = styled.div`
-margin: 0.5em;
-margin-right: 5%;
+
+const TabsContainer = styled.tbody`
+display: flex;
+list-style: none;
+
+
+
+`
+
+const Tab = styled.tr`
 
 `
 const TabButton = styled.button`
-background: gray;
-color: white;
-padding: 0.5em;
-padding-left: 1em;
-padding-right: 1em;
+background: ${theme.colors.primaryColor};
+font-size: 1em;
+color: ${theme.colors.secondryColor};
+padding: 1em 1.5em;
+border: 1.5px solid ${theme.colors.secondryColor};
+border-radius: ${theme.roundness};
+cursor: pointer;
+margin-left:10px;
+margin-right: 10px;
 
-
-
+@media (max-width: 800px) {
+  border: 1px solid ${theme.colors.secondryColor};
+  margin-left: 0px;
+  margin-right: 0px;
+  padding: 0.25em 1em;
+}
 `
 
 const style = {
   TabsContainer,
-  CartContainer,
   Tab,
   TabButton,
-  Container
-  
+  Container,
+  Title
+
 }
 
 

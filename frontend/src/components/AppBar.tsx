@@ -3,28 +3,37 @@ import { Link } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { RootState } from ".."
 
-
-const { TabsContainer, Tab, TabButton, CartContainer, Container } = style
+const { TabsContainer, Tab, TabButton, Container, } = style
 
 const AppBar = (): JSX.Element => {
+
   const cart = useSelector(
     (state: RootState) => state.cart)
+  const user = useSelector(
+    (state: RootState) => state.user)
 
-  const inCart:string = cart.reduce((prev, current) => prev + current.amount, 0).toString()
+  const inCart: string = cart.reduce((prev, current) => prev + current.amount, 0).toString()
+
+  const isUserLogged = user
+    ? <AppBarTab title={"Logout"} destination="/logout" />
+    : <>
+      <AppBarTab title={"Signup"} destination="/register" />
+      <AppBarTab title={"Login"} destination="/login" />
+    </>
+
+
 
   return (
-    <div>
-      <Container>
+    <Container>
+      <table>
         <TabsContainer>
-          <AppBarTab title={"products"} destination="" />
-          <AppBarTab title={"other"} destination="" />
-          <AppBarTab title={"login"} destination="/login" />
+          <AppBarTab title={"Products"} destination="" />
+        <AppBarTab title={"Other"} destination="" />
+          {isUserLogged}
+          <AppBarTab title={`Cart ${inCart}`} destination="/cart" />
         </TabsContainer>
-        <CartContainer>
-          <AppBarTab title={`cart ${inCart}`} destination="/cart" />
-        </CartContainer>
-      </Container>
-    </div>
+      </table>
+    </Container>
   )
 }
 
@@ -38,21 +47,12 @@ interface TabProps {
 }
 const AppBarTab = ({ title, destination }: TabProps) => (
   <Tab>
-    <Link to={destination}>
-      <TabButton>{title}</TabButton>
-    </Link>
+    <td>
+      <Link to={destination}>
+        <TabButton>{title}</TabButton>
+      </Link>
+    </td>
   </Tab>
 )
 
-
-const Cart = () => {
-  const cart = useSelector(
-    (state: RootState) => state.cart)
-  return (
-    <div>
-      {cart.reduce((prev, current) => prev + current.amount, 0)}
-    </div>
-  )
-
-}
 

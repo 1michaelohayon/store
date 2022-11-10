@@ -2,10 +2,14 @@
 import styled from "styled-components"
 
 const MainContainer = styled.div`
-background: white;
-display: flex;
-margin-left:10%;
-justify-content: space-between;
+padding-left: 7rem;
+padding-right: 7rem;
+margin-left: auto;
+margin-right: auto;
+
+@media (max-width: 900px) {
+  padding: 1rem;
+}
 `
 
 const style = {
