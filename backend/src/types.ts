@@ -1,6 +1,8 @@
 import { Types } from "mongoose"
 
 
+
+
 export interface Product {
   id: string,
   type: string,
@@ -24,13 +26,17 @@ export interface CartListing {
   amount?: number
 }
 
+
 export interface User {
   username: string,
-  name?: String,
-  email?: String,
+  name?: string,
+  email?: string,
+  admin: boolean,
   address?: String,
-  passwordHash: String,
-  inCart?: CartListing[]
+  passwordHash: string,
+  inCart: CartListing[]
+  cratedAt: Date,
+  updatedAt: Date
 }
 
 

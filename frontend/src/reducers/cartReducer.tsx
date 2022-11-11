@@ -2,9 +2,10 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { Product, User } from "../types"
 import { AppDispatch } from ".."
 import { CartListing } from "../types"
-import { CartUpdate } from "../types"
 import userService from "../services/user"
-import { setNotification, setErrorfulNotification, setSuccesfulNotification} from "./notificationReducer"
+import { setNotification, setErrorfulNotification, setSuccesfulNotification } from "./notificationReducer"
+import { handleManyRequests } from "../util"
+
 
 const cartSlice = createSlice({
   name: 'cart',
@@ -20,20 +21,7 @@ const cartSlice = createSlice({
         : state.push(cartListing);
 
     },
-    addProductToUser: (state, action: PayloadAction<CartUpdate>) => {
-      const update = action.payload
 
-      const findDuplicate = (listing: CartListing) => state.find(c => c.product.id === listing.product.id);
-      const productInCart = findDuplicate(update.inCart)
-
-      if (productInCart) {
-        productInCart.amount += update.inCart.amount
-        update.inCart.amount = productInCart.amount
-      } else {
-        state.push(update.inCart);
-      }
-      userService.updateCart(update)
-    },
     removeProduct: (state, action: PayloadAction<CartListing>) => {
       const productId = action.payload.product.id
       const target = state.find(c => c.product.id === productId)
@@ -47,22 +35,6 @@ const cartSlice = createSlice({
       }
 
     },
-    removeFromUserCart: (state, action: PayloadAction<CartUpdate>) => {
-      const update = action.payload
-      const productId = update.inCart.product.id
-      const target = state.find(c => c.product.id === productId)
-
-      if (target && target.amount > 1) {
-        target.amount--
-        update.inCart.amount = target.amount
-        userService.updateCart(update)
-      } else if (target && target.amount <= 1) {
-        const removedFromCart = state.filter(c => c.product.id !== productId)
-        userService.deleteFromCart({ userId: update.userId, productId: productId })
-        return state = removedFromCart
-      }
-
-    },
     setCart: (_state, action: PayloadAction<CartListing[]>) => {
       return action.payload
     }
@@ -70,7 +42,7 @@ const cartSlice = createSlice({
 
 })
 
-export const { addProduct, removeProduct, setCart, addProductToUser, removeFromUserCart } = cartSlice.actions
+export const { addProduct, removeProduct, setCart } = cartSlice.actions
 
 
 export const setUserCart = (cart: CartListing[]) => {
@@ -79,17 +51,22 @@ export const setUserCart = (cart: CartListing[]) => {
   }
 }
 
-export const addToCart = (user: (User | null), responsiveStock: number, product: Product) => {
+
+
+export const addToCart = (user: (User | null), responsiveStock: number, alreadyInCart: any, product: Product) => {
   return async (dispatch: AppDispatch) => {
+
     if (responsiveStock) {
-
       if (user) {
-        const cartUpdate = {
-          userId: user.id,
-          inCart: { product: product, amount: 1 }
+        try {
+          userService.setToken(user.token)
+          const update = alreadyInCart
+            ? await userService.updateCart({ product: alreadyInCart.product.id, amount: alreadyInCart.amount + 1 })
+            : await userService.addToCart({ product: product.id, amount: 1 })
+          dispatch(setCart(update))
+        } catch (error) {
+          console.log(error);
         }
-        dispatch(addProductToUser(cartUpdate))
-
       } else {
         dispatch(addProduct({ product, amount: 1 }))
       }
@@ -107,11 +84,15 @@ export const addToCart = (user: (User | null), responsiveStock: number, product:
 export const removeFromCart = (user: (User | null), product: Product, amount: number) => {
   return async (dispatch: AppDispatch) => {
     if (user) {
-      const cartUpdate = {
-        userId: user.id,
-        inCart: { product: product, amount: 1 }
-      }
-      dispatch(removeFromUserCart(cartUpdate))
+      userService.setToken(user.token)
+      const update = amount > 1
+        ? await userService.updateCart({ product: product.id, amount: amount - 1 })
+        : await userService.deleteFromCart(product.id)
+
+      console.log(update ? true : false)
+      
+      update ?  dispatch(setCart(update)) : dispatch(removeProduct({ product, amount }))
+
     } else {
       dispatch(removeProduct({ product, amount }))
 

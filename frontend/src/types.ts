@@ -17,7 +17,7 @@ export interface Notification {
   message: string
 }
 
-export interface cartItem {
+export interface CartItem {
   product: string,
   amount: number
 }

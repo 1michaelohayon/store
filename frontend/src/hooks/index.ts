@@ -5,7 +5,7 @@ import { setUserCart } from "../reducers/cartReducer"
 import userService from "../services/user"
 import { AppDispatch, RootState } from ".."
 import { useNavigate } from "react-router-dom"
-import { Product } from "../types"
+import { CartListing, Product } from "../types"
 import { logout } from "../reducers/userReducer"
 
 
@@ -51,7 +51,7 @@ export const useFetchUserAndNavigate = () => {
 
 
 
-export const useResponsiveStock = (product: Product) => {
+export const useResponsiveStock = (product: Product): number => {
   const cart = useSelector(
     (state: RootState) => state.cart)
 
@@ -61,6 +61,18 @@ export const useResponsiveStock = (product: Product) => {
   return responsiveStock
 
 }
+
+export const useAlreadyInCart = (product: Product): CartListing | undefined => {
+  const cart = useSelector(
+    (state: RootState) => state.cart)
+
+  const findDuplicate = (product: Product) => cart.find(c => c.product.id === product.id);
+
+return findDuplicate(product)
+}
+
+
+
 
 export const useLogout = () => {
 

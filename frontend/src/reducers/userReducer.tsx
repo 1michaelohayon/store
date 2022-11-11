@@ -28,7 +28,6 @@ export const { setUser, clearUser } = userSlice.actions
 export const assignUser = (user: User) => {
   return (dispatch: AppDispatch) => {
     dispatch(setUser(user))
-    //...Service.setToken(user.token)
   }
 }
 export const logout = () => {

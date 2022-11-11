@@ -4,10 +4,11 @@ import { AppDispatch } from "..";
 import { RootState } from "..";
 import { CartListing } from "../types"
 import { setNotification } from "../reducers/notificationReducer";
-import { useResponsiveStock } from "../hooks";
+import { useResponsiveStock, useAlreadyInCart} from "../hooks";
 import style from "../theme/cart";
 import { PrimaryButton } from "../theme";
 import { formatPrice } from "../util";
+
 
 const {
   SecondaryCartButton,
@@ -63,11 +64,14 @@ export default Cart
 const CartItem = ({ product, amount }: CartListing): JSX.Element => {
   const dispatch: AppDispatch = useDispatch()
   const responsiveStock = useResponsiveStock(product)
+  const alreadyInCart = useAlreadyInCart(product);
+
+
   const user = useSelector(
     (state: RootState) => state.user)
 
-  const handleAddToCart = () => dispatch(addToCart(user, responsiveStock, product))
-  const handleRemove = () => dispatch(removeFromCart(user, product, amount))
+    const handleAddToCart = () => dispatch(addToCart(user, responsiveStock,alreadyInCart,  product))
+    const handleRemove = () => dispatch(removeFromCart(user, product, amount))
 
   return <CartItemContainer>
     <td>

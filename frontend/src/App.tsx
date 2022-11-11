@@ -16,6 +16,7 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
+  Navigate
 } from 'react-router-dom'
 import style from "./theme/notification"
 import { NotificationStyle } from "./types";
@@ -29,9 +30,6 @@ const App = () => {
   }, [dispatch])
 
   useFetchUser()
-
-
-
 
   const notification = useSelector(
     (state: RootState) => state.notification)
@@ -63,6 +61,7 @@ const App = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/logout" element={<Logout />} />
         {productsRoutes}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </AppContainer>
   )

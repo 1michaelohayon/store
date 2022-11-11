@@ -4,7 +4,6 @@ import { Product, newProduct } from "../types";
 import { validateProduct, userExtractor } from "../utils/middleware"
 
 
-
 const productRouter = Router()
 productRouter.get("/", async (_req, res) => {
   const products: Product[] = await ProductSchema.find({})

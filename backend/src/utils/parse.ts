@@ -1,4 +1,4 @@
-import { newProduct } from "../types";
+import { newProduct, CartListing } from "../types";
 
 
 export const isString = (text: unknown): text is string => {
@@ -71,3 +71,15 @@ export const validProduct = (body: productFields): newProduct => {
   }
 }
 
+
+
+export const onclyUnique = (cart: CartListing[]): CartListing[] => {
+  const unqiueSet: CartListing[] = []
+  const isDouble = (listing: any) => unqiueSet.some((obj: any) => obj.product.toString() === listing.product.toString())
+  cart.forEach(listing => {
+    if (!isDouble(listing)) {
+      unqiueSet.push(listing)
+    }
+  })
+  return unqiueSet
+}

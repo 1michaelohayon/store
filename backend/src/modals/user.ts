@@ -25,5 +25,4 @@ userSchema.set("toJSON", {
   },
 });
 
-
 export default mongoose.model("User", userSchema);

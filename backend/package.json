@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development ts-node-dev src/index.ts",
     "tsc": "tsc",
-    "start": "node build/src/index.js",
+    "start": "cross-env NODE_ENV=production node build/src/index.js",
     "test": "cross-env NODE_ENV=test jest --forceExit"
   },
   "author": "Michael Ohayon",
