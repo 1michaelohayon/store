@@ -59,6 +59,7 @@ const App = () => {
         <Route path="/login" element={<SignIn />} />
         <Route path="/register" element={<SignUp />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/about" element={<About/>} />
         <Route path="/logout" element={<Logout />} />
         {productsRoutes}
         <Route path="*" element={<Navigate to="/" replace />} />
@@ -77,3 +78,6 @@ const Logout = () => {
   useLogout()
   return <></>
 }
+
+
+const About = () => <div>Thanks for checking out my store project. Check out more at <br/><a href="https://github.com/1michaelohayon">https://github.com/1michaelohayon</a></div>
