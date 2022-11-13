@@ -9,6 +9,7 @@ import style from "../theme/cart";
 import { PrimaryButton } from "../theme";
 import { formatPrice } from "../util";
 
+
 const {
   SecondaryCartButton,
   CartContainer,
@@ -39,20 +40,20 @@ const Cart = (): JSX.Element => {
         product={listing.product}
         amount={listing.amount} />)}
 
-    <tr>
-      <td>
-      </td>
-      <td>
-      </td>
-      <td>
-        <PrimaryButton onClick={() => dispatch(setNotification("Thanks for checking out my project. Check out more at:  https://github.com/1michaelohayon", 30))}>Checkout</PrimaryButton>
-      </td>
-      <td>
-      </td>
-      <td>
-        {formatPrice(total)}
-      </td>
-    </tr>
+      <tr>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+          <PrimaryButton onClick={() => dispatch(setNotification("Thanks for checking out my project. Check out more at: https://github.com/1michaelohayon", 30))}>Checkout</PrimaryButton>
+        </td>
+        <td>
+        </td>
+        <td>
+          {formatPrice(total)}
+        </td>
+      </tr>
     </CartContainer>
   </Container>
 }
@@ -63,11 +64,20 @@ export default Cart
 const CartItem = ({ product, amount }: CartListing): JSX.Element => {
   const dispatch: AppDispatch = useDispatch()
   const responsiveStock = useResponsiveStock(product)
-  const user = useSelector(
-    (state: RootState) => state.user)
 
-  const handleAddToCart = () => dispatch(addToCart(user, responsiveStock, product))
-  const handleRemove = () => dispatch(removeFromCart(user, product, amount))
+  const state = useSelector(
+    (state: RootState) => state)
+  const user = state.user
+  const cart = state.cart
+
+
+  const handleAddToCart = () => dispatch(addToCart(
+    user,
+    responsiveStock,
+    product,
+    cart))
+
+  const handleRemove = () => dispatch(removeFromCart(user, product, cart))
 
   return <CartItemContainer>
     <td>
@@ -78,7 +88,7 @@ const CartItem = ({ product, amount }: CartListing): JSX.Element => {
       <Specifications>
         {product.specifications?.dimensions} <br />
         {product.specifications?.weight} kg
-      </Specifications> 
+      </Specifications>
     </td>
     <td>
       {amount}

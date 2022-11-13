@@ -17,7 +17,7 @@ export interface Notification {
   message: string
 }
 
-export interface cartItem {
+export interface CartItem {
   product: string,
   amount: number
 }
@@ -40,7 +40,7 @@ export interface Product {
     dimensions: string,
     weight: number
   },
-  cratedAt: Date,
+  createdAt: Date,
   updatedAt: Date
 }
 

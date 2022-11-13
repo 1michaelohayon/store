@@ -17,7 +17,7 @@ const initialProducts = [
       "https://images2.imgbox.com/62/83/gEhK1W6e_o.jpg",
       "https://images2.imgbox.com/90/f1/YXo7sE8R_o.jpg"
     ],
-    cratedAt: new Date("2022-11-08T05:41:08.755Z"),
+    createdAt: new Date("2022-11-08T05:41:08.755Z"),
     updatedAt: new Date("2022-11-08T05:41:08.755Z"),
     _id: "6369ebf435bee36bc78b4496"
   },
@@ -37,7 +37,7 @@ const initialProducts = [
       "https://images2.imgbox.com/ce/56/6W0h05i6_o.jpg",
       "https://images2.imgbox.com/b0/0d/5fc6I8Qb_o.jpg"
     ],
-    cratedAt: new Date("2022-11-08T05:48:19.628Z"),
+    createdAt: new Date("2022-11-08T05:48:19.628Z"),
     updatedAt: new Date("2022-11-08T05:48:19.628Z"),
     _id: "6369eda335bee36bc78b4499"
   },
@@ -57,7 +57,7 @@ const initialProducts = [
       "https://images2.imgbox.com/d3/09/VMY0rTP4_o.png",
       "https://images2.imgbox.com/ff/34/wBjJ76Q5_o.png"
     ],
-    cratedAt: new Date("2022-11-08T06:32:01.341Z"),
+    createdAt: new Date("2022-11-08T06:32:01.341Z"),
     updatedAt: new Date("2022-11-08T06:32:01.341Z"),
     _id: "6369f7e135bee36bc78b44aa"
   }]
@@ -99,7 +99,7 @@ const newProduct = {
 const newUser = {
   username: "NotAdmin",
   password: "sismakasha",
-  cratedAt: new Date(),
+  createdAt: new Date(),
   updatedAt: new Date()
 }
 

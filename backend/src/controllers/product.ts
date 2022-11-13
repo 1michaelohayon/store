@@ -2,8 +2,7 @@ import { Router } from "express";
 import ProductSchema from "../modals/product";
 import { Product, newProduct } from "../types";
 import { validateProduct, userExtractor } from "../utils/middleware"
-
-
+import { userReq } from "../types";
 
 const productRouter = Router()
 productRouter.get("/", async (_req, res) => {
@@ -13,9 +12,9 @@ productRouter.get("/", async (_req, res) => {
 })
 
 
-productRouter.post("/",userExtractor , validateProduct, async (req: any, res) => {
+productRouter.post("/", userExtractor, validateProduct, async (req: userReq, res) => {
   const body: newProduct = req.body
-  
+
   if (!req.user) {
     return res.status(401).json({ error: 'token is missing or invalid' })
   }
@@ -34,7 +33,7 @@ productRouter.post("/",userExtractor , validateProduct, async (req: any, res) =>
     price: body.price,
     secondaryPhotos: body.secondaryPhotos,
     updatedAt: new Date(),
-    cratedAt: new Date(),
+    createdAt: new Date(),
   })
 
   const savedProduct = await newProduct.save();

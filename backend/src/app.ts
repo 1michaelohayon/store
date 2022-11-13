@@ -4,7 +4,7 @@ import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import { isString } from "../src/utils/parse"
-import { morganLog } from './utils/middleware';
+import { morganLog, errorHandler, unknownEndpoint } from './utils/middleware';
 
 import productRouter from './controllers/product';
 import userRouter from './controllers/users';
@@ -30,12 +30,16 @@ mongoose
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static('front_build'))
+app.use(express.static('build'))
 app.use(morganLog())
 
-app.use("/api/products", productRouter);
-app.use("/api/users", userRouter)
-app.use("/api/login", loginRouter);
 
+  app.use("/api/products", productRouter);
+  app.use("/api/users", userRouter)
+  app.use("/api/login", loginRouter);
+
+
+app.use(errorHandler)
+app.use(unknownEndpoint)
 
 export default app

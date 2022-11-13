@@ -44,7 +44,7 @@ describe(`get and retrival tests`, () => {
     const response = await api.get('/api/users')
 
     expect(response.body[0].updatedAt).toBeDefined()
-    expect(response.body[0].cratedAt).toBeDefined()
+    expect(response.body[0].createdAt).toBeDefined()
 
   }, 100000)
 })

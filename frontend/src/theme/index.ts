@@ -44,6 +44,7 @@ background: ${theme.colors.secondryColor};
 font-size: 1em;
 padding: 15px;
 border: 2px solid black;
+font-color: ${theme.colors.primaryColor};
 border-radius: ${theme.roundness};
 cursor: pointer;
 `

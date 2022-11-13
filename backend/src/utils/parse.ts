@@ -1,4 +1,4 @@
-import { newProduct } from "../types";
+import { newProduct, CartListing } from "../types";
 
 
 export const isString = (text: unknown): text is string => {
@@ -54,7 +54,7 @@ type productFields = {
   type: unknown,
   stock: unknown,
   available: unknown,
-  cratedAt: unknown,
+  createdAt: unknown,
   updatedAt: unknown
   photo: unknown
 
@@ -71,3 +71,15 @@ export const validProduct = (body: productFields): newProduct => {
   }
 }
 
+
+
+export const onclyUnique = (cart: CartListing[]): CartListing[] => {
+  const unqiueSet: CartListing[] = []
+  const isDouble = (listing: CartListing) => unqiueSet.some((obj: CartListing) => obj?.product?.toString() === listing?.product?.toString())
+  cart.forEach(listing => {
+    if (!isDouble(listing)) {
+      unqiueSet.push(listing)
+    }
+  })
+  return unqiueSet
+}

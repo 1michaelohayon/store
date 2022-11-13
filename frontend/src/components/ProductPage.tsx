@@ -23,10 +23,17 @@ const ProductPage = ({ product }: Props) => {
   const dispatch: AppDispatch = useDispatch()
   const responsiveStock = useResponsiveStock(product)
 
-  const user = useSelector(
-    (state: RootState) => state.user)
 
-  const handleAddToCart = () => dispatch(addToCart(user, responsiveStock, product))
+  const state = useSelector(
+    (state: RootState) => state)
+  const user = state.user
+  const cart = state.cart
+
+  const handleAddToCart = () => dispatch(addToCart(
+    user,
+    responsiveStock,
+    product,
+    cart))
 
 
   const thumbnails = product.photo && product.secondaryPhotos

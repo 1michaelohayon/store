@@ -28,7 +28,6 @@ export const { setUser, clearUser } = userSlice.actions
 export const assignUser = (user: User) => {
   return (dispatch: AppDispatch) => {
     dispatch(setUser(user))
-    //...Service.setToken(user.token)
   }
 }
 export const logout = () => {
@@ -54,7 +53,6 @@ export const register = (creds: Credentials) => {
   return async (dispatch: AppDispatch) => {
     try {
       const res = await userService.create(creds)
-      console.log(res.username, creds.username, creds.username === res.username)
       if (res.username === creds.username) {
         await dispatch(logIn(creds))
         dispatch(setSuccesfulNotification(`Success! Welcome ${creds.username}`, 7))

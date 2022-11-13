@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
 import { assignUser } from "../reducers/userReducer"
-import { setUserCart } from "../reducers/cartReducer"
+import { clearCart, setUserCart } from "../reducers/cartReducer"
 import userService from "../services/user"
 import { AppDispatch, RootState } from ".."
 import { useNavigate } from "react-router-dom"
@@ -51,7 +51,7 @@ export const useFetchUserAndNavigate = () => {
 
 
 
-export const useResponsiveStock = (product: Product) => {
+export const useResponsiveStock = (product: Product): number => {
   const cart = useSelector(
     (state: RootState) => state.cart)
 
@@ -62,14 +62,17 @@ export const useResponsiveStock = (product: Product) => {
 
 }
 
-export const useLogout = () => {
 
+
+
+export const useLogout = () => {
   const navigate = useNavigate()
   const dispatch: AppDispatch = useDispatch()
 
   useEffect(() => {
     navigate("/")
     dispatch(logout())
+    dispatch(clearCart())
   }, [dispatch, navigate])
 }
 

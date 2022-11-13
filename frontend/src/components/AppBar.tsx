@@ -27,8 +27,8 @@ const AppBar = (): JSX.Element => {
     <Container>
       <table>
         <TabsContainer>
-          <AppBarTab title={"Products"} destination="" />
-        <AppBarTab title={"Other"} destination="" />
+          <AppBarTab title={"Products"} destination="/" />
+        <AppBarTab title={"About"} destination="/about" />
           {isUserLogged}
           <AppBarTab title={`Cart ${inCart}`} destination="/cart" />
         </TabsContainer>
