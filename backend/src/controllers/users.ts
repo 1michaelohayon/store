@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt"
 import UserSchema from "../modals/user";
-//import { CartListing } from "../types";
+import { userReq, CartListing} from "../types";
 import { Router } from "express";
 import { userExtractor } from "../utils/middleware";
 import { onclyUnique } from "../utils/parse";
@@ -57,7 +57,7 @@ usersRouter.get('/:id/inCart/:productId', async (req, res) => {
     : res.status(404).end('user not found')
 })
 
-usersRouter.delete('/inCart/:productId', userExtractor, async (req: any, res, next: Function) => {
+usersRouter.delete('/inCart/:productId', userExtractor, async (req: userReq, res, next: Function) => {
   try {
     if (!req.user) {
       return res.status(401).json({ error: 'token is missing or invalid' })
@@ -69,14 +69,14 @@ usersRouter.delete('/inCart/:productId', userExtractor, async (req: any, res, ne
       })
 
 
-    const productInCart = user?.inCart.find((c: any) => c.product?.id.toString() === req.params.productId.toString())
+    const productInCart = user?.inCart.find((c: CartListing) => c.product?.id.toString() === req.params.productId.toString())
     if (!productInCart) {
       return res.status(404).end('product not found')
     }
 
 
 
-    user.inCart = onclyUnique(user.inCart.filter((c: any) => c.product.id !== productInCart.product?.id))
+    user.inCart = onclyUnique(user.inCart.filter((c: CartListing) => c?.product?.id !== productInCart.product?.id))
     await user.save()
 
     return res.status(200).end()
@@ -89,58 +89,18 @@ usersRouter.delete('/inCart/:productId', userExtractor, async (req: any, res, ne
 
 
 
-usersRouter.post('/inCart', userExtractor, async (req: any, res, next: Function) => {
+usersRouter.put('/inCart', userExtractor, async (req: userReq, res, next: Function) => {
   try {
     if (!req.user) {
       return res.status(401).json({ error: 'token is missing or invalid' })
     }
     const user = req.user
-    const newProduct = req.body
-
-    const updatedCart = onclyUnique([...user.inCart, newProduct])
-
-    user.inCart = updatedCart;
-
-
-    const savedUser = await user.save()
-
-    await savedUser.populate("inCart.product", {
-      id: 1,
-      type: 1,
-      name: 1,
-      description: 1,
-      stock: 1,
-      photo: 1,
-      price: 1,
-      available: 1,
-      specifications: 1,
-      cratedAt: 1,
-      updatedAt: 1
-    })
-
-
-    return res.status(200).json(savedUser.inCart)
-  } catch (error) {
-    return next(error)
-  }
-
-})
-
-usersRouter.put('/inCart', userExtractor, async (req: any, res, next: Function) => {
-  try {
-    if (!req.user) {
-      return res.status(401).json({ error: 'token is missing or invalid' })
-    }
-    const user = req.user
-    const productId = req.body
-    const filterdProducts = user.inCart.filter((c: any) => c.product.id === productId)
-
-    const updatedCart = onclyUnique([...filterdProducts, productId])
-
+    const cart = req.body
+    const updatedCart = onclyUnique(cart)
 
 
     user.inCart = updatedCart;
-    await user.save()
+
     const savedUser = await user.save()
 
     await savedUser.populate("inCart.product", {

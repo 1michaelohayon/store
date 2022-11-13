@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
 import { assignUser } from "../reducers/userReducer"
-import { setUserCart } from "../reducers/cartReducer"
+import { clearCart, setUserCart } from "../reducers/cartReducer"
 import userService from "../services/user"
 import { AppDispatch, RootState } from ".."
 import { useNavigate } from "react-router-dom"
-import { CartListing, Product } from "../types"
+import { Product } from "../types"
 import { logout } from "../reducers/userReducer"
 
 
@@ -62,26 +62,17 @@ export const useResponsiveStock = (product: Product): number => {
 
 }
 
-export const useAlreadyInCart = (product: Product): CartListing | undefined => {
-  const cart = useSelector(
-    (state: RootState) => state.cart)
-
-  const findDuplicate = (product: Product) => cart.find(c => c.product.id === product.id);
-
-return findDuplicate(product)
-}
-
 
 
 
 export const useLogout = () => {
-
   const navigate = useNavigate()
   const dispatch: AppDispatch = useDispatch()
 
   useEffect(() => {
     navigate("/")
     dispatch(logout())
+    dispatch(clearCart())
   }, [dispatch, navigate])
 }
 

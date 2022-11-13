@@ -3,7 +3,7 @@ import { addToCart } from "../reducers/cartReducer"
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "..";
 import { RootState } from ".."
-import { useResponsiveStock, useAlreadyInCart } from "../hooks";
+import { useResponsiveStock } from "../hooks";
 import { PrimaryButton } from "../theme"
 import { useState } from "react";
 import { formatPrice } from "../util"
@@ -22,17 +22,18 @@ const ProductPage = ({ product }: Props) => {
   const [primaryPhoto, setPrimaryPhoto] = useState<string | undefined>(product.photo)
   const dispatch: AppDispatch = useDispatch()
   const responsiveStock = useResponsiveStock(product)
-  const alreadyInCart = useAlreadyInCart(product);
 
 
-  const user = useSelector(
-    (state: RootState) => state.user)
+  const state = useSelector(
+    (state: RootState) => state)
+  const user = state.user
+  const cart = state.cart
 
   const handleAddToCart = () => dispatch(addToCart(
     user,
     responsiveStock,
-    alreadyInCart,
-    product))
+    product,
+    cart))
 
 
   const thumbnails = product.photo && product.secondaryPhotos

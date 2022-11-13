@@ -5,11 +5,3 @@ export const formatPrice = (price: Number | number | undefined) => {
 }
 
 
-export const handleManyRequests = (action: any) => {
-  let timeoutID: ReturnType<typeof setTimeout>
-  timeoutID = setTimeout(() => {
-    console.log('fired')
-    return action
-  }, 3000)
-
-}

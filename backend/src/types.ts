@@ -1,7 +1,6 @@
 import { Types } from "mongoose"
-
-
-
+import { JwtPayload } from "jsonwebtoken"
+import express from "express"
 
 export interface Product {
   id: string,
@@ -39,5 +38,13 @@ export interface User {
   updatedAt: Date
 }
 
+
+
+export interface JwtId extends JwtPayload {
+  id: string
+}
+export interface userReq extends express.Request {
+  user?: JwtId | null
+}
 
 export type newProduct = Omit<Product, "id" | "cratedAt" | "updatedAt">

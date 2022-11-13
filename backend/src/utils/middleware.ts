@@ -1,9 +1,10 @@
 import { validProduct } from "./parse";
 import userSchema from "../modals/user";
-import jwt, { Secret, JwtPayload } from "jsonwebtoken";
+import jwt, { Secret } from "jsonwebtoken";
 import express from "express";
 import config from "./config";
 import morgan from "morgan"
+import { userReq, JwtId } from "../types";
 
 export const validateProduct = async (req: express.Request, res: express.Response, next: Function) => {
   try {
@@ -18,12 +19,6 @@ export const validateProduct = async (req: express.Request, res: express.Respons
   return next()
 }
 
-interface JwtId extends JwtPayload {
-  id: string
-}
-export interface userReq extends express.Request {
-  user?: JwtId | null
-}
 
 
 
@@ -34,13 +29,10 @@ export const userExtractor = async (req: userReq, res: express.Response, next: F
     const token = authorization.substring(7);
     const decodedToken = jwt.verify(token, config.SECRET as Secret) as JwtId;
     req.user = await userSchema.findById(decodedToken.id);
-    console.log('PASSED PASSED PASSED PASSED PASSED PASSED PASSED PASSED PASSED PASSED PASSED PASSED PASSED PASSED PASSED PASSED PASSED PASSED PASSED PASSED PASSED PASSED PASSED PASSED PASSED PASSED PASSED ');
   } catch (error) {
     next(error)
   }
-    
   } else {
-    console.log('FAILED FAILED FAILED FAILED FAILED FAILED FAILED FAILED FAILED FAILED FAILED FAILED FAILED FAILED FAILED FAILED FAILED FAILED FAILED FAILED FAILED FAILED FAILED FAILED ');
     req.user = null;
   }
   res ? console.log('res') : console.log("no res");;

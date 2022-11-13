@@ -4,7 +4,7 @@ import { AppDispatch } from "..";
 import { RootState } from "..";
 import { CartListing } from "../types"
 import { setNotification } from "../reducers/notificationReducer";
-import { useResponsiveStock, useAlreadyInCart} from "../hooks";
+import { useResponsiveStock } from "../hooks";
 import style from "../theme/cart";
 import { PrimaryButton } from "../theme";
 import { formatPrice } from "../util";
@@ -40,20 +40,20 @@ const Cart = (): JSX.Element => {
         product={listing.product}
         amount={listing.amount} />)}
 
-    <tr>
-      <td>
-      </td>
-      <td>
-      </td>
-      <td>
-        <PrimaryButton onClick={() => dispatch(setNotification("Thanks for checking out my project. Check out more at:  https://github.com/1michaelohayon", 30))}>Checkout</PrimaryButton>
-      </td>
-      <td>
-      </td>
-      <td>
-        {formatPrice(total)}
-      </td>
-    </tr>
+      <tr>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+          <PrimaryButton onClick={() => dispatch(setNotification("Thanks for checking out my project. Check out more at: https://github.com/1michaelohayon", 30))}>Checkout</PrimaryButton>
+        </td>
+        <td>
+        </td>
+        <td>
+          {formatPrice(total)}
+        </td>
+      </tr>
     </CartContainer>
   </Container>
 }
@@ -64,14 +64,20 @@ export default Cart
 const CartItem = ({ product, amount }: CartListing): JSX.Element => {
   const dispatch: AppDispatch = useDispatch()
   const responsiveStock = useResponsiveStock(product)
-  const alreadyInCart = useAlreadyInCart(product);
+
+  const state = useSelector(
+    (state: RootState) => state)
+  const user = state.user
+  const cart = state.cart
 
 
-  const user = useSelector(
-    (state: RootState) => state.user)
+  const handleAddToCart = () => dispatch(addToCart(
+    user,
+    responsiveStock,
+    product,
+    cart))
 
-    const handleAddToCart = () => dispatch(addToCart(user, responsiveStock,alreadyInCart,  product))
-    const handleRemove = () => dispatch(removeFromCart(user, product, amount))
+  const handleRemove = () => dispatch(removeFromCart(user, product, cart))
 
   return <CartItemContainer>
     <td>
@@ -82,7 +88,7 @@ const CartItem = ({ product, amount }: CartListing): JSX.Element => {
       <Specifications>
         {product.specifications?.dimensions} <br />
         {product.specifications?.weight} kg
-      </Specifications> 
+      </Specifications>
     </td>
     <td>
       {amount}

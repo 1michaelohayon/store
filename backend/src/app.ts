@@ -30,7 +30,7 @@ mongoose
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static('front_build'))
+app.use(express.static('build'))
 app.use(morganLog())
 
 

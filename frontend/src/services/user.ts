@@ -1,12 +1,12 @@
 import axios from 'axios'
-import { CartItem, CartListing } from '../types'
+import { CartItem } from '../types'
 import { apiBaseUrl } from '../constants'
 import { Credentials } from '../types'
 
 const baseUrl = `${apiBaseUrl}users`
 
 let token: string | null = null
-const setToken = (newToken: any) => token = `bearer ${newToken}`
+const setToken = (newToken: string) => token = `bearer ${newToken}`
 
 
 const getUser = async (id: string) => {
@@ -20,23 +20,13 @@ const create = async (creds: Credentials) => {
 }
 
 
-const updateCart = async (cartItem: CartItem) => {
+const setCart = async (cartItem: CartItem[]) => {
   const config = { headers: { Authorization: token } }
   const response = await axios.put(
     `${baseUrl}/inCart`, cartItem, config)
 
   return response.data
 }
-const addToCart = async (cartItem: CartItem) => {
-  const config = {
-    headers: { Authorization: token },
-  }
-  const response = await axios.post(
-    `${baseUrl}/inCart`, cartItem, config)
-
-  return response.data
-}
-
 
 const deleteFromCart = async (productId: string) => {
   const config = {
@@ -51,11 +41,10 @@ const deleteFromCart = async (productId: string) => {
 
 const userService = {
   setToken,
-  updateCart,
-  addToCart,
   deleteFromCart,
   getUser,
-  create
+  create,
+  setCart
 }
 export default userService
 
