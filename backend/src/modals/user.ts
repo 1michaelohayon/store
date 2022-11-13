@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     product: {type: mongoose.Schema.Types.ObjectId, ref: "Product"},
     amount: Number
   }],
-  cratedAt: {type: Date, required: true},
+  createdAt: {type: Date, required: true},
   updatedAt: {type: Date, required: true}
 })
 

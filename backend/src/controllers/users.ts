@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt"
 import UserSchema from "../modals/user";
-import { userReq, CartListing} from "../types";
+import { userReq } from "../types";
 import { Router } from "express";
 import { userExtractor } from "../utils/middleware";
 import { onclyUnique } from "../utils/parse";
@@ -25,7 +25,7 @@ usersRouter.get('/:id', async (req, res) => {
       price: 1,
       available: 1,
       specifications: 1,
-      cratedAt: 1,
+      createdAt: 1,
       updatedAt: 1
     })
   user
@@ -45,7 +45,7 @@ usersRouter.get('/:id/inCart/:productId', async (req, res) => {
       price: 1,
       available: 1,
       specifications: 1,
-      cratedAt: 1,
+      createdAt: 1,
       updatedAt: 1
     })
 
@@ -56,37 +56,6 @@ usersRouter.get('/:id/inCart/:productId', async (req, res) => {
     ? res.json(productInCart)
     : res.status(404).end('user not found')
 })
-
-usersRouter.delete('/inCart/:productId', userExtractor, async (req: userReq, res, next: Function) => {
-  try {
-    if (!req.user) {
-      return res.status(401).json({ error: 'token is missing or invalid' })
-    }
-
-    const user = await req.user
-      .populate("inCart.product", {
-        id: 1,
-      })
-
-
-    const productInCart = user?.inCart.find((c: CartListing) => c.product?.id.toString() === req.params.productId.toString())
-    if (!productInCart) {
-      return res.status(404).end('product not found')
-    }
-
-
-
-    user.inCart = onclyUnique(user.inCart.filter((c: CartListing) => c?.product?.id !== productInCart.product?.id))
-    await user.save()
-
-    return res.status(200).end()
-
-  } catch (error) {
-    return next(error)
-  }
-
-})
-
 
 
 usersRouter.put('/inCart', userExtractor, async (req: userReq, res, next: Function) => {
@@ -100,6 +69,7 @@ usersRouter.put('/inCart', userExtractor, async (req: userReq, res, next: Functi
 
 
     user.inCart = updatedCart;
+    user.updatedAt = new Date()
 
     const savedUser = await user.save()
 
@@ -113,7 +83,7 @@ usersRouter.put('/inCart', userExtractor, async (req: userReq, res, next: Functi
       price: 1,
       available: 1,
       specifications: 1,
-      cratedAt: 1,
+      createdAt: 1,
       updatedAt: 1
     })
 
@@ -148,7 +118,7 @@ usersRouter.post('/', async (req, res) => {
     admin: false,
     passwordHash,
     updatedAt: new Date(),
-    cratedAt: new Date()
+    createdAt: new Date()
   })
 
   const savedUser = await user.save()

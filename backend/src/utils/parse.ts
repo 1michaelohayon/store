@@ -54,7 +54,7 @@ type productFields = {
   type: unknown,
   stock: unknown,
   available: unknown,
-  cratedAt: unknown,
+  createdAt: unknown,
   updatedAt: unknown
   photo: unknown
 

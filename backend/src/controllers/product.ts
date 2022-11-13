@@ -33,7 +33,7 @@ productRouter.post("/", userExtractor, validateProduct, async (req: userReq, res
     price: body.price,
     secondaryPhotos: body.secondaryPhotos,
     updatedAt: new Date(),
-    cratedAt: new Date(),
+    createdAt: new Date(),
   })
 
   const savedProduct = await newProduct.save();

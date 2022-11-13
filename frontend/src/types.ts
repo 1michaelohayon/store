@@ -40,7 +40,7 @@ export interface Product {
     dimensions: string,
     weight: number
   },
-  cratedAt: Date,
+  createdAt: Date,
   updatedAt: Date
 }
 

@@ -13,7 +13,7 @@ const productSchema = new mongoose.Schema({
     dimensions: { type: String, required: false },
     weight: { type: Number, required: false }
   },
-  cratedAt: { type: Date, required: true },
+  createdAt: { type: Date, required: true },
   updatedAt: { type: Date, required: true }
 })
 

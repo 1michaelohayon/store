@@ -16,7 +16,7 @@ loginRouter.post('/', async (request, response) => {
       stock: 1,
       available: 1,
       specifications: 1,
-      cratedAt: 1,
+      createdAt: 1,
       updatedAt: 1
     })
 

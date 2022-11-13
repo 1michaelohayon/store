@@ -16,7 +16,7 @@ export interface Product {
     dimensions: string,
     weight: number
   },
-  cratedAt: Date,
+  createdAt: Date,
   updatedAt: Date
 }
 
@@ -34,7 +34,7 @@ export interface User {
   address?: String,
   passwordHash: string,
   inCart: CartListing[]
-  cratedAt: Date,
+  createdAt: Date,
   updatedAt: Date
 }
 
@@ -47,4 +47,4 @@ export interface userReq extends express.Request {
   user?: JwtId | null
 }
 
-export type newProduct = Omit<Product, "id" | "cratedAt" | "updatedAt">
+export type newProduct = Omit<Product, "id" | "createdAt" | "updatedAt">
