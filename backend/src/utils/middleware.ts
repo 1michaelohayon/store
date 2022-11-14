@@ -21,8 +21,7 @@ export const validateProduct = async (req: express.Request, res: express.Respons
 
 
 
-
-export const userExtractor = async (req: userReq, res: express.Response, next: Function) => {
+export const userExtractor = async (req: userReq, _res: express.Response, next: Function) => {
   const authorization = req.get("authorization");
   if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
     try {
@@ -35,12 +34,10 @@ export const userExtractor = async (req: userReq, res: express.Response, next: F
   } else {
     req.user = null;
   }
-  res ? console.log('res') : console.log("no res");;
   return next();
 };
 
-
-export const errorHandler = (error: Error, req: express.Request, res: express.Response, next: Function) => {
+export const errorHandler = (error: Error, _req: express.Request, res: express.Response, next: Function) => {
 
   if (error.name === "CastError") {
     return res.status(400).send({ error: "malformatted id" });
@@ -55,7 +52,6 @@ export const errorHandler = (error: Error, req: express.Request, res: express.Re
   } else if (error.name === "TypeError") {
     return res.status(400).send({ error: "typeerror/malformatted id" });
   } else {
-    console.log(req);
   }
   return next(error);
 };

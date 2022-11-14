@@ -2,7 +2,7 @@ import supertest from "supertest"
 import helper from "./test_helper";
 import user from "../src/modals/user";
 import app from "../src/app";
-
+import bcrypt from "bcrypt"
 const { newUser } = helper
 
 const usersInDb = async () => {
@@ -16,7 +16,8 @@ const api = supertest(app)
 
 beforeEach(async () => {
   await user.deleteMany({})
-  const createUser = new user(newUser)
+  const passwordHash = await bcrypt.hash(newUser.password, 10)
+  const createUser = new user({ ...newUser, passwordHash })
   await createUser.save()
 }, 100000)
 
@@ -68,7 +69,7 @@ describe('post tests', () => {
     const usernames = usersAfter.map(b => b.username)
     expect(usernames).toContain(additonalUser.username)
   })
-  test('401 error when posting user with the same username', async () => {
+  test('400 error when posting user with the same username', async () => {
     const usersBefore = await usersInDb()
     await api
       .post('/api/users')
@@ -85,7 +86,7 @@ describe('post tests', () => {
     const shortPassword = { ...newUser, username: "AdditonalUser", password: "123" }
 
     const usersBefore = await usersInDb()
-    await api
+    const response = await api
       .post('/api/users')
       .set(headerToken)
       .send(shortPassword)
@@ -93,6 +94,92 @@ describe('post tests', () => {
       .expect('Content-Type', /application\/json/)
 
     const usersAfter = await usersInDb()
+
+    expect(response.body.error).toBe("password must be at least 7 characters long")
     expect(usersAfter).toHaveLength(usersBefore.length)
   })
+
+
+  test('Can Succesfully login', async () => {
+    const { username, password } = newUser
+
+    const response = await api
+      .post('/api/login')
+      .set('Accept', 'application/json')
+      .send({ username, password })
+
+    expect(response.body.username).toBe(username)
+    expect(response.body.token).toBeDefined()
+  })
+
 })
+
+
+
+
+
+
+
+
+describe('put tests', () => {
+  let token: string
+
+  beforeEach(async () => {
+    const { username, password } = newUser
+    const response = await api
+      .post('/api/login')
+      .set('Accept', 'application/json')
+      .send({ username, password })
+
+    token = response.body.token
+  }, 100000)
+
+
+  test("HTTP Put request to the /api/users/inCart url successfully add items to user's cart", async () => {
+    const usersBefore = await usersInDb()
+
+
+    const HeaderToken = { 'Authorization': `bearer ${token}`, Accept: 'application/json' }
+
+    await api
+      .put('/api/users/inCart')
+      .set(HeaderToken)
+      .send([
+        { product: "6369f7e135bee36bc78b44aa", amount: 1 },
+        { product: "6369eda335bee36bc78b4499", amount: 1 },
+      ])
+
+
+    const usersAfter = await usersInDb()
+
+    expect(usersBefore[0].inCart).toHaveLength(0)
+    expect(usersAfter[0].inCart).toHaveLength(2)
+
+  })
+
+  test("HTTP Put request with duplicate IDs returns unique array without duplicates", async () => {
+    const usersBefore = await usersInDb()
+
+    const HeaderToken = { 'Authorization': `bearer ${token}`, Accept: 'application/json' }
+
+    await api
+      .put('/api/users/inCart')
+      .set(HeaderToken)
+      .send([
+        { product: "6369f7e135bee36bc78b44aa", amount: 1 },
+        { product: "6369f7e135bee36bc78b44aa", amount: 1 },
+        { product: "6369f7e135bee36bc78b44aa", amount: 1 },
+        { product: "6369f7e135bee36bc78b44aa", amount: 1 },
+      ])
+
+
+    const usersAfter = await usersInDb()
+
+    expect(usersBefore[0].inCart).toHaveLength(0)
+    expect(usersAfter[0].inCart).toHaveLength(1)
+
+
+  })
+
+})
+

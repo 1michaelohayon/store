@@ -96,6 +96,8 @@ const newProduct = {
 }
 
 
+
+
 const newUser = {
   username: "NotAdmin",
   password: "sismakasha",

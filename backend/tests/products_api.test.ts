@@ -46,7 +46,7 @@ describe('post tests', () => {
   const newProduct = helper.newProduct;
   
 
-  test('401 when trying to post"', async () => {
+  test('401 when trying to post new prodcuts to the store', async () => {
     await api
       .post('/api/products')
       .set(headerToken)

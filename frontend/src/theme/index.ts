@@ -3,8 +3,8 @@ import styled from "styled-components"
 const theme = {
   roundness: "0.36rem",
   colors: {
-    primaryColor: "black",
-    secondryColor: "white",
+    primaryColor: "#000001",
+    secondryColor: "#ffffff ",
     lowEmphasis: "gray",
     error: "#f7401c",
     info: "#d19844",
@@ -43,7 +43,7 @@ export const PrimaryButton = styled.button`
 background: ${theme.colors.secondryColor};
 font-size: 1em;
 padding: 15px;
-border: 2px solid black;
+border: 2px solid ${theme.colors.primaryColor};
 font-color: ${theme.colors.primaryColor};
 border-radius: ${theme.roundness};
 cursor: pointer;
